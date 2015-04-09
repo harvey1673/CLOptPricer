@@ -60,6 +60,9 @@
     <ClInclude Include="..\..\source\volmodel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\interpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\volmodel.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\interpolator.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>

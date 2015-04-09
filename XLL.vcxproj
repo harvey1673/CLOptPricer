@@ -245,6 +245,7 @@
     <ClCompile Include="source\barriersmile.cpp" />
     <ClCompile Include="source\ci.cpp" />
     <ClCompile Include="source\euopt.cpp" />
+    <ClCompile Include="source\interpolator.cpp" />
     <ClCompile Include="source\lusolve.cpp" />
     <ClCompile Include="source\normdist.cpp" />
     <ClCompile Include="source\pricer.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="source\ci.h" />
     <ClInclude Include="source\cppinterface.h" />
     <ClInclude Include="source\euopt.h" />
+    <ClInclude Include="source\interpolator.h" />
     <ClInclude Include="source\lusolve.h" />
     <ClInclude Include="source\math_utils.h" />
     <ClInclude Include="source\normdist.h" />

@@ -23,6 +23,7 @@
     <ClCompile Include="source\timeseries.cpp" />
     <ClCompile Include="source\volmodel.cpp" />
     <ClCompile Include="source\barriersmile.cpp" />
+    <ClCompile Include="source\interpolator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\cppinterface.h" />
@@ -40,5 +41,6 @@
     <ClInclude Include="source\timeseries.h" />
     <ClInclude Include="source\volmodel.h" />
     <ClInclude Include="source\barriersmile.h" />
+    <ClInclude Include="source\interpolator.h" />
   </ItemGroup>
 </Project>

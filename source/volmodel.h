@@ -2,9 +2,9 @@
 #define VOLMODEL_H
 #include <vector>
 #include <cmath>
+#include "interpolator.h"
 #include "normdist.h"
 #include "ci.h"
-#include "interpolator.h"
 
 double SamuelsonFactor(double a, double b, double t, double T, double mat);
 
@@ -71,7 +71,7 @@ public:
 				  const double beta, 
 				  const DblVector fxTenors,
 				  const DblVector fxVols,
-				  const corr);
+				  const double corr);
 	~FXSamuelVolNode() { delete _volInterp; }
 	double corr_() { return _corr; }
 	DblVector fxAtmVols_() { return _fxAtmVols; }
@@ -81,7 +81,7 @@ private:
 	DblVector _fxTenors;
 	DblVector _fxAtmVols;
 	double _corr;
-	VolInterp *_volInterp;
+	VolInterp* _volInterp;
 };
 
 class Delta5VolNode: public VolNode {

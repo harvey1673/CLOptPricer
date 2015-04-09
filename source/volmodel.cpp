@@ -43,21 +43,24 @@ FXSamuelVolNode::FXSamuelVolNode(const double dtoday,
 				  const double atm,
 				  const double alpha,
 				  const double beta, 
-				  const DblVector fxTenors,
-				  const DblVector fxVols,
-				  const corr): 
+				  DblVector fxTenors,
+				  DblVector fxVols,
+				  const double corr): 
 				  SamuelVolNode(dtoday, dexp, atm, alpha, beta), 
 				  _fxTenors(fxTenors), 
 				  _fxAtmVols(fxVols), 
 				  _corr(corr)
 {
-	_interp = new VolInterp(dtoday, fxTenors, fxVols);
+	_volInterp = new VolInterp(dtoday, &_fxTenors, &_fxAtmVols);
 }
 				  
 double FXSamuelVolNode::GetVolByMoneyness(const double ratio, const double dmat)
-{
-	double vol = SamuelVolNode::GetVolByMoneyness(ratio, dmat);
-	Interp *intp = new Interp(
+{	
+	double corr = this->corr_(); 
+	double comvol = SamuelVolNode::GetVolByMoneyness(ratio, dmat);
+	double fxvol = _volInterp->InterpByExpiry(dmat);
+	double vol = std::sqrt(comvol*comvol + fxvol * fxvol + 2*corr*comvol*fxvol);
+	return vol;
 }
 
 void Delta5VolNode::setAtm( double atm ) 
