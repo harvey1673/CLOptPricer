@@ -38,6 +38,28 @@ double SamuelVolNode::GetInstVol(const double d)
 		return vol * ( 1 + a * std::exp(-b*(T-t)));
 }
 
+FXSamuelVolNode::FXSamuelVolNode(const double dtoday,
+				  const double dexp, 
+				  const double atm,
+				  const double alpha,
+				  const double beta, 
+				  const DblVector fxTenors,
+				  const DblVector fxVols,
+				  const corr): 
+				  SamuelVolNode(dtoday, dexp, atm, alpha, beta), 
+				  _fxTenors(fxTenors), 
+				  _fxAtmVols(fxVols), 
+				  _corr(corr)
+{
+	_interp = new VolInterp(dtoday, fxTenors, fxVols);
+}
+				  
+double FXSamuelVolNode::GetVolByMoneyness(const double ratio, const double dmat)
+{
+	double vol = SamuelVolNode::GetVolByMoneyness(ratio, dmat);
+	Interp *intp = new Interp(
+}
+
 void Delta5VolNode::setAtm( double atm ) 
 {
 	delete _interp;
