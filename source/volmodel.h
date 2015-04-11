@@ -74,9 +74,11 @@ public:
 				  const double corr);
 	~FXSamuelVolNode() { delete _volInterp; }
 	double corr_() { return _corr; }
+	double fxAtmVols(unsigned int i);
 	DblVector fxAtmVols_() { return _fxAtmVols; }
 	DblVector fxTenors_() { return _fxTenors; }
 	double GetVolByMoneyness(const double ratio, const double dmat);
+	void setFxAtmVols(double vol, unsigned int index); 
 private:
 	DblVector _fxTenors;
 	DblVector _fxAtmVols;

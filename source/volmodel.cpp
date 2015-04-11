@@ -53,7 +53,20 @@ FXSamuelVolNode::FXSamuelVolNode(const double dtoday,
 {
 	_volInterp = new VolInterp(dtoday, &_fxTenors, &_fxAtmVols);
 }
-				  
+
+void FXSamuelVolNode::setFxAtmVols(double vol, unsigned int index)
+{
+	if (index >= _fxAtmVols.size()) return;
+	_fxAtmVols[index] = vol;
+	return;
+}
+
+double FXSamuelVolNode::fxAtmVols(unsigned int index)
+{
+	unsigned int i = ( index >= _fxAtmVols.size())? _fxAtmVols.size(): index;
+	return _fxAtmVols[i];
+}
+
 double FXSamuelVolNode::GetVolByMoneyness(const double ratio, const double dmat)
 {	
 	double corr = this->corr_(); 

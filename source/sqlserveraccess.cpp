@@ -62,7 +62,7 @@ void WriteVolResultsToDB(std::string hostname, std::string dbname, std::string t
 	String^ mktString = gcnew String(mkt.c_str());
 	String^ voltypeString = gcnew String(voltype.c_str());
 
-	for (int i = 0; i < res.size(); ++i)
+	for (unsigned int i = 0; i < res.size(); ++i)
 	{
 		SqlCommand^ scmd = gcnew SqlCommand(qString, myConnection);
 		scmd->Parameters->AddWithValue("@Market", mktString);

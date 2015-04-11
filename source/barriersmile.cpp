@@ -2,7 +2,7 @@
 
 double SmileToLognormal(double p, double stdev, DblVector& Strikes, DblVector& CDFs)
 {
-	double NN = Strikes.size();
+	unsigned int NN = Strikes.size();
 	double cdf = 0.5;
 	if (p <= Strikes[0] )
 		cdf = 1e-6;
@@ -88,7 +88,7 @@ double BarrierSmilePricer::price()
 	cdfs[0] = 0.0;
 	cdfs[nSteps-1] = 1.0;
 
-	for (int i = 1; i < nSteps-1; ++i)
+	for (unsigned int i = 1; i < nSteps-1; ++i)
 		cdfs[i] = (raw_cdf[i-1]+raw_cdf[i])/2;
 
 	double auxSum = 0.0;
