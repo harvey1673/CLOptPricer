@@ -38,40 +38,33 @@ double SamuelVolNode::GetInstVol(const double d)
 		return vol * ( 1 + a * std::exp(-b*(T-t)));
 }
 
-FXSamuelVolNode::FXSamuelVolNode(const double dtoday,
-				  const double dexp, 
-				  const double atm,
-				  const double alpha,
-				  const double beta, 
-				  DblVector fxTenors,
-				  DblVector fxVols,
-				  const double corr): 
-				  SamuelVolNode(dtoday, dexp, atm, alpha, beta), 
-				  _fxTenors(fxTenors), 
-				  _fxAtmVols(fxVols), 
-				  _corr(corr)
+FXVol::FXVol(const double dtoday, 
+			const DblVector fxTenors,
+			const DblVector fxVols):
+			_dtoday(dtoday),
+			_fxTenors(fxTenors), 
+			_fxAtmVols(fxVols)
 {
 	_volInterp = new VolInterp(dtoday, &_fxTenors, &_fxAtmVols);
 }
 
-void FXSamuelVolNode::setFxAtmVols(double vol, unsigned int index)
-{
-	if (index >= _fxAtmVols.size()) return;
-	_fxAtmVols[index] = vol;
-	return;
-}
-
-double FXSamuelVolNode::fxAtmVols(unsigned int index)
+double FXVol::fxAtmVol(unsigned int index)
 {
 	unsigned int i = ( index >= _fxAtmVols.size())? _fxAtmVols.size(): index;
 	return _fxAtmVols[i];
 }
 
+void FXSamuelVolNode::setToday(const double dtoday)
+{
+	FXVol::setToday(dtoday);
+	SamuelVolNode::setToday(dtoday);
+}
+ 
 double FXSamuelVolNode::GetVolByMoneyness(const double ratio, const double dmat)
 {	
 	double corr = this->corr_(); 
 	double comvol = SamuelVolNode::GetVolByMoneyness(ratio, dmat);
-	double fxvol = _volInterp->InterpByExpiry(dmat);
+	double fxvol = this->GetFXVolByDate(dmat);
 	double vol = std::sqrt(comvol*comvol + fxvol * fxvol + 2*corr*comvol*fxvol);
 	return vol;
 }
