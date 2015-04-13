@@ -1,7 +1,7 @@
 #include "fxpricer.h"
 
 FXPricer::FXPricer(const double dtoday, const double dexp, 
-			const double fwd, VolNode *vol, const double strike, const double ir, 
+			const double fwd, FXSamuelVolNode *vol, const double strike, const double ir, 
 			std::string otype, DblVector fxTenors, DblVector fxFwds) :
 			Pricer(dtoday, dexp, fwd, vol, strike, ir, otype), _fxTenors(fxTenors), _fxFwds(fxFwds)
 {
@@ -47,12 +47,12 @@ DblVector FXPricer::fxdeltas()
 
 double FXPricer::fxvega()
 {
-	VolNode* vol = this->vol_();
+	FXSamuelVolNode* vol = static_cast<FXSamuelVolNode*>(this->vol_());
 	double dvol = vol->fxAtmVol(0) * this->volTweak();
 	DblVector fxvols;
 	for (size_t i = 0; i < vol->fxAtmVols_().size(); ++i)
 	{
-		double v = vol->fxAtmVol(i)
+		double v = vol->fxAtmVol(i);
 		fxvols.push_back(v);
 		vol->setFxAtmVols(v+dvol, i);
 	}
@@ -68,11 +68,12 @@ double FXPricer::fxvega()
 DblVector FXPricer::fxvegas()
 {
 	DblVector vegas;
-	VolNode* vol = this->vol_();
+	FXSamuelVolNode* vol = static_cast<FXSamuelVolNode*>(this->vol_());
 	double eps = this->volTweak();
-	for (size_t i = 0; i < vol->fxAtmVols_().size(); ++i)
+	DblVector atmVols = vol->fxAtmVols_();
+	for (size_t i = 0; i < atmVols.size(); ++i)
 	{
-		double v = vol->fxAtmVol(i)
+		double v = vol->fxAtmVol(i);
 		vol->setFxAtmVols(v*(1+eps), i);
 		double uprice = this->price();
 		vol->setFxAtmVols(v*(1-eps), i);
@@ -85,14 +86,14 @@ DblVector FXPricer::fxvegas()
 
 double FXBlackPricer::price()
 {
-	VolNode *vol = this->vol_();
+	FXSamuelVolNode *vol = static_cast<FXSamuelVolNode*>(this->vol_());
 	double fwd = this->fwd_();
 	double dtoday = this->dtoday_();
 	double dexp = this->dexp_();
 	double strike = this->strike_();
 	double fxfwd = GetFXFwdByDate(dexp);
 	double comfwd = fwd * fxfwd;
-	double comvol = vol->GetVolByMoneyness( std::log(strike/fwd), dexp)
+	double comvol = vol->GetVolByMoneyness( std::log(strike/fwd), dexp);
 	double tExp = (dexp - dtoday)/365.0;
 	double df = std::exp(-this->irate_()*tExp);
 	std::string PutCall = this->otype_();
@@ -103,7 +104,7 @@ double FXBlackPricer::price()
 
 double FXDigitalPricer::price()
 {
-	VolNode *vol = this->vol_();
+	FXSamuelVolNode *vol = static_cast<FXSamuelVolNode*>(this->vol_());
 	double fwd = this->fwd_();
 	double dtoday = this->dtoday_();
 	double dexp = this->dexp_();

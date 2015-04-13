@@ -41,7 +41,6 @@ double SamuelVolNode::GetInstVol(const double d)
 FXVol::FXVol(const double dtoday, 
 			const DblVector fxTenors,
 			const DblVector fxVols):
-			_dtoday(dtoday),
 			_fxTenors(fxTenors), 
 			_fxAtmVols(fxVols)
 {
