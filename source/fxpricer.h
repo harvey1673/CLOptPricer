@@ -7,6 +7,7 @@ public:
 	FXPricer(const double dtoday, const double dexp, 
 			const double fwd, FXSamuelVolNode *vol, const double strike, const double ir, 
 			std::string otype, DblVector fxTenors, DblVector fxFwds);
+	~FXPricer() { delete _fwdInterp; }
 	double GetFXFwdByDate(const double dexp) { return _fwdInterp->InterpByExpiry(dexp); }
 	virtual double fxdelta();
 	virtual DblVector fxdeltas();
