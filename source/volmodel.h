@@ -27,7 +27,7 @@ public:
 	}
 
 	virtual void setAtm( double atm ) { _atmVol = atm; }
-	void setToday( double dtoday ) { _dtoday = dtoday; }
+	virtual void setToday( double dtoday ) { _dtoday = dtoday; }
 	void setExp( double dexp ) { _dexp = dexp; }
 
 	double atmVol_() { return _atmVol; } 
@@ -62,28 +62,36 @@ private:
 	double _beta;
 };
 
-class FXSamuelVolNode: public SamuelVolNode {
+class FXVol {
 public:
-	FXSamuelVolNode(const double dtoday,
-				  const double dexp, 
-				  const double atm,
-				  const double alpha,
-				  const double beta, 
-				  const DblVector fxTenors,
-				  const DblVector fxVols,
-				  const double corr);
-	~FXSamuelVolNode() { delete _volInterp; }
-	double corr_() { return _corr; }
-	double fxAtmVols(unsigned int i);
-	DblVector fxAtmVols_() { return _fxAtmVols; }
-	DblVector fxTenors_() { return _fxTenors; }
-	double GetVolByMoneyness(const double ratio, const double dmat);
-	void setFxAtmVols(double vol, unsigned int index); 
+	FXVol(const double dtoday, 
+		  const DblVector fxTenors,
+		  const DblVector fxVols);
+	~FXVol() { delete _volInterp; }	  
+	double fxAtmVol(unsigned int i);
+	double GetFXVolByDate(double dmat) { return _volInterp->InterpByExpiry(dmat); }
+	DblVector& fxAtmVols_() { return _fxAtmVols; }
+	DblVector& fxTenors_()  { return _fxTenors; }
+	void setFxAtmVols(double vol, unsigned int index) { if (index <= _fxAtmVols.size()) _fxAtmVols[index] = vol;}
+	virtual void setToday( double dtoday ) { _volInterp->setToday(dtoday); }
 private:
 	DblVector _fxTenors;
 	DblVector _fxAtmVols;
-	double _corr;
 	VolInterp* _volInterp;
+};
+
+class FXSamuelVolNode: public SamuelVolNode, public FXVol {
+public:
+	FXSamuelVolNode::FXSamuelVolNode(const double dtoday, const double dexp, 
+				const double atm, const double alpha, const double beta, 
+				DblVector fxTenors, DblVector fxVols, const double corr): 
+				SamuelVolNode(dtoday, dexp, atm, alpha, beta), 
+				FXVol(dtoday, fxTenors, fxVols), _corr(corr) {}
+	double corr_() { return _corr; }
+	void setToday( double dtoday );
+	double GetVolByMoneyness(const double ratio, const double dmat);
+private:
+	double _corr;
 };
 
 class Delta5VolNode: public VolNode {
