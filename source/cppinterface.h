@@ -7,6 +7,7 @@
 #include <xlw/ArgList.h>
 #include "volmodel.h"
 #include "pricer.h"
+#include "fxpricer.h"
 #include "math_utils.h"
 #include "timeseries.h"
 #include "sqlserveraccess.h"
@@ -202,4 +203,36 @@ int CLCalibHistBreakevenVol(std::string hostname,
 							int freq,
 							const MyArray &contDates,
 							std::string out_table);
+MyArray CLFXEuroOptPricer(const double dtoday,
+					const double dexp,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const MyArray &fxFwdTenors,
+					const MyArray &fxFwds,
+					const MyArray &fxVolTenors,
+					const MyArray &fxVols,
+					const double corr,
+					const std::string outflag,
+					const double alpha,
+					const double beta);
+MyArray CLFXBinOptPricer(const double dtoday,
+					const double dexp,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const MyArray &fxFwdTenors,
+					const MyArray &fxFwds,
+					const MyArray &fxVolTenors,
+					const MyArray &fxVols,
+					const double corr,
+					const std::string outflag,
+					const double alpha,
+					const double beta);							
 #endif
