@@ -2,7 +2,7 @@
 
 FXPricer::FXPricer(const double dtoday, const double dexp, 
 			const double fwd, FXSamuelVolNode *vol, const double strike, const double ir, 
-			std::string otype, DblVector fxTenors, DblVector fxFwds) :
+			std::string otype, DblVector& fxTenors, DblVector& fxFwds) :
 			Pricer(dtoday, dexp, fwd, vol, strike, ir, otype), _fxTenors(fxTenors), _fxFwds(fxFwds)
 {
 	_fwdInterp = new FwdInterp(dtoday, &_fxTenors, &_fxFwds);
@@ -139,14 +139,16 @@ FXStripPricer<T>::FXStripPricer( const double dtoday,
 	const double fwd, FXSamuelVolNode *vol,
 	const double strike, const double ir, 
 	const std::string otype, const DblVector &hols, 
-	DblVector fxTenors, DblVector fxFwds ):
+	DblVector& fxTenors, DblVector& fxFwds ):
 	FXPricer( dtoday, endDate, fwd, vol, strike, ir, otype, fxTenors, fxFwds), 
 	_hols(hols), _sDate(startDate), _eDate(endDate)
 {
 	_bdays = businessDays(startDate, endDate, hols);
 	for (size_t i = 0; i < _bdays.size(); ++i)
-		double fxfwd = this->GetFXFwdByDate(const double dexp)
-		_pvec.push_back(T(dtoday, _bdays[i], fwd * fxfwd, vol, strike, 0, otype));
+	{
+		double fxfwd = this->GetFXFwdByDate(_pvec[i].dexp_());
+		_pvec.push_back(T(dtoday, _bdays[i], fwd*fxfwd, vol, strike, 0, otype, fxTenors, fxFwds));
+	}
 }
 
 template <typename T>
@@ -185,7 +187,7 @@ void FXStripPricer<T>::setToday(const double dtoday)
 }
 
 template <typename T>
-void FXStripPricer<T>::price()
+double FXStripPricer<T>::price()
 {
 	double psum = 0.0;
 	if (_pvec.size() == 0)

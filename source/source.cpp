@@ -606,7 +606,7 @@ int CLCalibHistBreakevenVol( std::string hostname, std::string dbname, std::stri
 	return 0;
 }
 
-MyArray CLFXEuroOptPricer(const double dtoday,
+double CLFXEuroOptPricer(const double dtoday,
 					const double dexp,
 					const double fwd,
 					const double strike,
@@ -640,29 +640,30 @@ MyArray CLFXEuroOptPricer(const double dtoday,
 
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+
 	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
-	FXBlackPricer fbp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
-	MyArray ret;
+	FXBlackPricer fbp(dtoday, dexp, fwd, &vol, strike, ir, otype, static_cast<DblVector>(fxFwdTenors), static_cast<DblVector>(fxFwds));
+	double ret;
 	if (( "p" == outflag ) || ( "P" == outflag ))
-		ret.push_back(fbp.price());
+		ret = fbp.price();
 	else if (( "d" == outflag ) || ( "D" == outflag ))
-		ret.push_back(fbp.delta());
+		ret = fbp.delta();
 	else if (( "g" == outflag ) || ( "G" == outflag ))
-		ret.push_back(fbp.gamma());
+		ret = fbp.gamma();
 	else if (( "v" == outflag ) || ( "V" == outflag ))
-		ret.push_back(fbp.vega());
+		ret = fbp.vega();
 	else if (( "t" == outflag ) || ( "T" == outflag ))
-		ret.push_back(fbp.theta());
+		ret = fbp.theta();
 	else if (( "fv" == outflag ) || ( "FV" == outflag ))
-		ret.push_back(fbp.fxvega());
-	else if (( "fvs" == outflag ) || ( "FV" == outflag ))
-		ret = fbp.fxvegas();		
+		ret = fbp.fxvega();
+	//else if (( "fvs" == outflag ) || ( "FV" == outflag ))
+	//	ret = fbp.fxvegas();		
 	else if (( "fd" == outflag ) || ( "FD" == outflag ))
-		ret.push_back(fbp.fxdelta());
-	else if (( "fds" == outflag ) || ( "FDS" == outflag ))
-		ret = fbp.fxdeltas();
+		ret = fbp.fxdelta();
+	//else if (( "fds" == outflag ) || ( "FDS" == outflag ))
+	//	ret = fbp.fxdeltas();
 	else if (( "z" == outflag ) || ( "Z" == outflag ))
-		ret = ret.push_back(10);
+		ret = 10;
 	else
 		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
 	
@@ -677,10 +678,10 @@ MyArray CLFXBinOptPricer(const double dtoday,
 					const double doptexp,
 					const double ir,
 					const std::string otype,
-					const MyArray &fxFwdTenors,
-					const MyArray &fxFwds,
-					const MyArray &fxVolTenors,
-					const MyArray &fxVols,
+					const MyArray fxFwdTenors,
+					const MyArray fxFwds,
+					const MyArray fxVolTenors,
+					const MyArray fxVols,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
@@ -705,7 +706,7 @@ MyArray CLFXBinOptPricer(const double dtoday,
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 		
 	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
-	FXDigitalPricer fdp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
+	FXDigitalPricer fdp(dtoday, dexp, fwd, &vol, strike, ir, otype, static_cast<DblVector>(fxFwdTenors), static_cast<DblVector>(fxFwds));
 	MyArray ret;
 	if (( "p" == outflag ) || ( "P" == outflag ))
 		ret.push_back(fdp.price());
@@ -726,7 +727,7 @@ MyArray CLFXBinOptPricer(const double dtoday,
 	else if (( "fds" == outflag ) || ( "FDS" == outflag ))
 		ret = fdp.fxdeltas();
 	else if (( "z" == outflag ) || ( "Z" == outflag ))
-		ret = ret.push_back(10);
+		ret.push_back(10);
 	else
 		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
 	

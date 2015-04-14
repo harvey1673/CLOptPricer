@@ -11,7 +11,7 @@ class FXPricer : public Pricer {
 public:
 	FXPricer(const double dtoday, const double dexp, 
 			const double fwd, FXSamuelVolNode *vol, const double strike, const double ir, 
-			std::string otype, DblVector fxTenors, DblVector fxFwds);
+			std::string otype, DblVector &fxTenors, DblVector& fxFwds);
 	~FXPricer() { delete _fwdInterp; }
 	double GetFXFwdByDate(const double dexp) { return _fwdInterp->InterpByExpiry(dexp); }
 	virtual void setFxFwd(const double fxfwd, unsigned int idx);
@@ -21,27 +21,27 @@ public:
 	virtual double fxvega();
 	virtual DblVector fxvegas();
 private:
-	DblVector _fxTenors;
-	DblVector _fxFwds;
+	DblVector& _fxTenors;
+	DblVector& _fxFwds;
 	FwdInterp* _fwdInterp;
 };	
 
-class FXBlackPricer: FXPricer {
+class FXBlackPricer: public FXPricer {
 public:
 	FXBlackPricer( const double dtoday, const double dexp, 
 			const double fwd, FXSamuelVolNode *vol, const double strike, 
 			const double ir, std::string otype, 
-			DblVector fxTenors, DblVector fxFwds )
+			DblVector& fxTenors, DblVector& fxFwds )
 			: FXPricer( dtoday, dexp, fwd, vol, strike, ir, otype, fxTenors, fxFwds) {}
 	virtual double price();
 };
 
-class FXDigitalPricer: FXPricer {
+class FXDigitalPricer: public FXPricer {
 public:
 	FXDigitalPricer( const double dtoday, const double dexp, 
 			const double fwd, FXSamuelVolNode *vol, const double strike, 
 			const double ir, std::string otype, 
-			DblVector fxTenors, DblVector fxFwds )
+			DblVector& fxTenors, DblVector& fxFwds )
 			: FXPricer( dtoday, dexp, fwd, vol, strike, ir, otype, fxTenors, fxFwds) {}
 	virtual double price();
 };
@@ -54,15 +54,13 @@ public:
 		const double fwd, FXSamuelVolNode *vol,
 		const double strike, const double ir, 
 		const std::string otype, const DblVector &hols, 
-		DblVector fxTenors, DblVector fxFwds );
+		DblVector& fxTenors, DblVector& fxFwds );
 	//~FXStripPricer();
 	virtual double price();
 	virtual void setFwd( const double fwd);
-	virtual void setVol( FXSamuelVolNode *vol);
+	virtual void setVol( VolNode *vol);
 	virtual void setIR( const double ir);
 	virtual void setToday( const double dtoday);
-	void initialize(); 
-
 private:
 	vector<T> _pvec;
 	DblVector _bdays;
