@@ -8,6 +8,19 @@ FXPricer::FXPricer(const double dtoday, const double dexp,
 	_fwdInterp = new FwdInterp(dtoday, &_fxTenors, &_fxFwds);
 }
 
+void FXPricer::setFxFwd(const double fxfwd, unsigned int idx)
+{
+	if (idx < _fxFwds.size())
+		_fxFwds[idx] = fxfwd;
+}
+
+void FXPricer::setFxVol(const double fxvol, unsigned int idx)
+{
+	FXSamuelVolNode* vol = static_cast<FXSamuelVolNode*>(this->vol_());
+	if (idx < vol->fxAtmVols_().size())
+		vol->setFxAtmVols(fxvol, idx);
+}
+
 double FXPricer::fxdelta()
 {
 	DblVector fxfwd;;
@@ -16,14 +29,14 @@ double FXPricer::fxdelta()
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
 	{
 		fxfwd.push_back(_fxFwds[i]);
-		_fxFwds[i] = _fxFwds[i] * ( 1 + eps );
+		this->setFxFwd(_fxFwds[i] * ( 1 + eps ), i );
 	}
 	double uprice = this->price();
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
-		_fxFwds[i] = fxfwd[i] * ( 1 - eps );
+		this->setFxFwd( fxfwd[i]  * ( 1 - eps ), i );
 	double dprice = this->price();
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
-		_fxFwds[i] = fxfwd[i];
+		this->setFxFwd( fxfwd[i], i );
 	return (uprice - dprice)/(2*eps*spot);
 }
 
@@ -35,11 +48,11 @@ DblVector FXPricer::fxdeltas()
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
 	{
 		fxfwd = _fxFwds[i];
-		_fxFwds[i] = fxfwd * ( 1 + eps );
+		this->setFxFwd( fxfwd * ( 1 + eps ), i );
 		double uprice = this->price();
-		_fxFwds[i] = fxfwd * ( 1 - eps );
+		this->setFxFwd( fxfwd * ( 1 - eps ), i );
 		double dprice = this->price();
-		_fxFwds[i] = fxfwd;
+		this->setFxFwd( fxfwd, i );
 		deltas.push_back((uprice - dprice)/(2*eps*fxfwd));
 	}
 	return deltas;
@@ -91,7 +104,7 @@ double FXBlackPricer::price()
 	double dtoday = this->dtoday_();
 	double dexp = this->dexp_();
 	double strike = this->strike_();
-	double fxfwd = GetFXFwdByDate(dexp);
+	double fxfwd = this->GetFXFwdByDate(dexp);
 	double comfwd = fwd * fxfwd;
 	double comvol = vol->GetVolByMoneyness( std::log(strike/fwd), dexp);
 	double tExp = (dexp - dtoday)/365.0;
@@ -109,7 +122,7 @@ double FXDigitalPricer::price()
 	double dtoday = this->dtoday_();
 	double dexp = this->dexp_();
 	double strike = this->strike_();
-	double fxfwd = GetFXFwdByDate(dexp);
+	double fxfwd = this->GetFXFwdByDate(dexp);
 	double comfwd = fwd * fxfwd;
 	double tExp = (dexp - dtoday)/365.0;
 	double df = std::exp(-this->irate_()*tExp);
@@ -119,4 +132,79 @@ double FXDigitalPricer::price()
 	pr = pr/fxfwd * df;
 	return pr;
 }
+
+template <typename T>
+FXStripPricer<T>::FXStripPricer( const double dtoday, 
+	const double startDate, const double endDate, 
+	const double fwd, FXSamuelVolNode *vol,
+	const double strike, const double ir, 
+	const std::string otype, const DblVector &hols, 
+	DblVector fxTenors, DblVector fxFwds ):
+	FXPricer( dtoday, endDate, fwd, vol, strike, ir, otype, fxTenors, fxFwds), 
+	_hols(hols), _sDate(startDate), _eDate(endDate)
+{
+	_bdays = businessDays(startDate, endDate, hols);
+	for (size_t i = 0; i < _bdays.size(); ++i)
+		double fxfwd = this->GetFXFwdByDate(const double dexp)
+		_pvec.push_back(T(dtoday, _bdays[i], fwd * fxfwd, vol, strike, 0, otype));
+}
+
+template <typename T>
+void FXStripPricer<T>::setFwd(const double fwd)
+{
+	Pricer::setFwd(fwd);
+	for (size_t i=0; i< _pvec.size(); ++i ) 
+	{
+		double fxfwd = this->GetFXFwdByDate(_pvec[i].dexp_());
+		_pvec[i].setFwd(fxfwd*fwd);
+	}
+}
+
+template <typename T>
+void FXStripPricer<T>::setVol(VolNode *vol)
+{ 
+	Pricer::setVol(vol);
+	for (size_t i=0; i< _pvec.size(); ++i ) 
+		_pvec[i].setVol(vol);
+}
+
+template <typename T>
+void FXStripPricer<T>::setIR(const double ir)
+{ 
+	FXPricer::setIR(ir);
+	for (size_t i=0; i< _pvec.size(); ++i ) 
+		_pvec[i].setIR(ir);
+}
+
+template <typename T>
+void FXStripPricer<T>::setToday(const double dtoday)
+{ 
+	FXPricer::setToday(dtoday);
+	for (size_t i=0; i< _pvec.size(); ++i ) 
+		_pvec[i].setToday(dtoday);
+}
+
+template <typename T>
+void FXStripPricer<T>::price()
+{
+	double psum = 0.0;
+	if (_pvec.size() == 0)
+		return 0.0;
+	else 
+	{
+		for (size_t i=0; i< _pvec.size(); ++i )
+		{	
+			double fxfwd = this->GetFXFwdByDate(_pvec[i].dexp_());
+			psum += _pvec[i].price()/fxfwd;
+		}
+		double dexp = this->dexp_();
+		double dtoday = this->dtoday_();
+		double tExp = (dexp - dtoday)/365.0;
+		double df = std::exp(-this->irate_()*tExp);
+		return psum/_pvec.size()*df;
+	}
+}
+
+template class FXStripPricer<FXBlackPricer>;    
+template class FXStripPricer<FXDigitalPricer>;
 
