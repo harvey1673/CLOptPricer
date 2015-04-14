@@ -1,4 +1,3 @@
-
 #include<cppinterface.h>
 
 #pragma warning (disable : 4996)
@@ -607,5 +606,129 @@ int CLCalibHistBreakevenVol( std::string hostname, std::string dbname, std::stri
 	return 0;
 }
 
+MyArray CLFXEuroOptPricer(const double dtoday,
+					const double dexp,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const MyArray &fxFwdTenors,
+					const MyArray &fxFwds,
+					const MyArray &fxVolTenors,
+					const MyArray &fxVols,
+					const double corr,
+					const std::string outflag,
+					const double alpha,
+					const double beta)
+{
+	if (dtoday > dexp )
+		THROW_XLW("the expiry date has passed already");
 
+	if (dexp > doptexp )
+		THROW_XLW("the expiry date is later than option expiry date");
 
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
+		THROW_XLW("The option type is not recognized");
+
+	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
+		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXBlackPricer fbp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
+	MyArray ret;
+	if (( "p" == outflag ) || ( "P" == outflag ))
+		ret.push_back(fbp.price());
+	else if (( "d" == outflag ) || ( "D" == outflag ))
+		ret.push_back(fbp.delta());
+	else if (( "g" == outflag ) || ( "G" == outflag ))
+		ret.push_back(fbp.gamma());
+	else if (( "v" == outflag ) || ( "V" == outflag ))
+		ret.push_back(fbp.vega());
+	else if (( "t" == outflag ) || ( "T" == outflag ))
+		ret.push_back(fbp.theta());
+	else if (( "fv" == outflag ) || ( "FV" == outflag ))
+		ret.push_back(fbp.fxvega());
+	else if (( "fvs" == outflag ) || ( "FV" == outflag ))
+		ret = fbp.fxvegas();		
+	else if (( "fd" == outflag ) || ( "FD" == outflag ))
+		ret.push_back(fbp.fxdelta());
+	else if (( "fds" == outflag ) || ( "FDS" == outflag ))
+		ret = fbp.fxdeltas();
+	else if (( "z" == outflag ) || ( "Z" == outflag ))
+		ret = ret.push_back(10);
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
+	
+	return ret;
+}
+
+MyArray CLFXBinOptPricer(const double dtoday,
+					const double dexp,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const MyArray &fxFwdTenors,
+					const MyArray &fxFwds,
+					const MyArray &fxVolTenors,
+					const MyArray &fxVols,
+					const double corr,
+					const std::string outflag,
+					const double alpha,
+					const double beta)
+{
+	if (dtoday > dexp )
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp )
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
+		THROW_XLW("The option type is not recognized");
+
+	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
+		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+		
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXDigitalPricer fdp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
+	MyArray ret;
+	if (( "p" == outflag ) || ( "P" == outflag ))
+		ret.push_back(fdp.price());
+	else if (( "d" == outflag ) || ( "D" == outflag ))
+		ret.push_back(fdp.delta());
+	else if (( "g" == outflag ) || ( "G" == outflag ))
+		ret.push_back(fdp.gamma());
+	else if (( "v" == outflag ) || ( "V" == outflag ))
+		ret.push_back(fdp.vega());
+	else if (( "t" == outflag ) || ( "T" == outflag ))
+		ret.push_back(fdp.theta());
+	else if (( "fv" == outflag ) || ( "FV" == outflag ))
+		ret.push_back(fdp.fxvega());
+	else if (( "fvs" == outflag ) || ( "FV" == outflag ))
+		ret = fdp.fxvegas();		
+	else if (( "fd" == outflag ) || ( "FD" == outflag ))
+		ret.push_back(fdp.fxdelta());
+	else if (( "fds" == outflag ) || ( "FDS" == outflag ))
+		ret = fdp.fxdeltas();
+	else if (( "z" == outflag ) || ( "Z" == outflag ))
+		ret = ret.push_back(10);
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
+	
+	return ret;
+}
