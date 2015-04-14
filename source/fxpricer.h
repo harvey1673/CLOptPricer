@@ -1,5 +1,10 @@
 #ifndef FXPRICER_H
 #define FXPRICER_H
+#include <string>
+#include "volmodel.h"
+#include "euopt.h"
+#include "barrier.h"
+#include "math_utils.h"
 #include "pricer.h"
 
 class FXPricer : public Pricer {
@@ -9,6 +14,8 @@ public:
 			std::string otype, DblVector fxTenors, DblVector fxFwds);
 	~FXPricer() { delete _fwdInterp; }
 	double GetFXFwdByDate(const double dexp) { return _fwdInterp->InterpByExpiry(dexp); }
+	virtual void setFxFwd(const double fxfwd, unsigned int idx);
+	virtual void setFxVol(const double fxvol, unsigned int idx);
 	virtual double fxdelta();
 	virtual DblVector fxdeltas();
 	virtual double fxvega();
@@ -39,47 +46,32 @@ public:
 	virtual double price();
 };
 
-//class FXStripPricer : public FXPricer {
-//public:
-//	FXStripPricer( const double dtoday, 
-//		const double startDate, const double endDate, 
-//		const double fwd, FXSamuelVolNode *vol,
-//		const double strike, const double ir, 
-//		const std::string otype, const DblVector &hols, 
-//		DblVector fxTenors, DblVector fxFwds );
-//	virtual double price();
-//	virtual void setFwd( const double fwd);
-//	virtual void setVol( FXSamuelVolNode *vol);
-//	virtual void setIR( const double ir);
-//	virtual void setToday( const double dtoday);
-//
-//private:
-//	vector<FXBlackPricer> _pvec;
-//	DblVector _bdays;
-//	DblVector _hols;
-//	double _sDate;
-//	double _eDate;
-//};
-//
-//class DigitalStripPricer : public Pricer {
-//public:
-//	DigitalStripPricer( const double dtoday, 
-//		const double startDate, const double endDate, 
-//		const double fwd, FXSamuelVolNode *vol,
-//		const double strike, const double ir, 
-//		const std::string otype, const DblVector &hols );
-//	virtual double price();
-//	virtual void setFwd( const double fwd);
-//	virtual void setVol( FXSamuelVolNode *vol);
-//	virtual void setIR( const double ir);
-//	virtual void setToday( const double dtoday);
-//
-//private:
-//	vector<DigitalPricer> _pvec;
-//	DblVector _bdays;
-//	DblVector _hols;
-//	double _sDate;
-//	double _eDate;
-//};
+template <typename T>
+class FXStripPricer : public FXPricer {
+public:
+	FXStripPricer( const double dtoday, 
+		const double startDate, const double endDate, 
+		const double fwd, FXSamuelVolNode *vol,
+		const double strike, const double ir, 
+		const std::string otype, const DblVector &hols, 
+		DblVector fxTenors, DblVector fxFwds );
+	//~FXStripPricer();
+	virtual double price();
+	virtual void setFwd( const double fwd);
+	virtual void setVol( FXSamuelVolNode *vol);
+	virtual void setIR( const double ir);
+	virtual void setToday( const double dtoday);
+	void initialize(); 
+
+private:
+	vector<T> _pvec;
+	DblVector _bdays;
+	DblVector _hols;
+	double _sDate;
+	double _eDate;
+};
+
+typedef FXStripPricer<FXBlackPricer> FXBlackStripPricer;
+typedef FXStripPricer<FXDigitalPricer>  FXBinStripPricer;
 
 #endif
