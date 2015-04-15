@@ -25,7 +25,7 @@ double FXPricer::fxdelta()
 {
 	DblVector fxfwd;;
 	double eps = this->priceTweak();
-	double spot = fxfwd[0];
+	double spot = _fxFwds[0];
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
 	{
 		fxfwd.push_back(_fxFwds[i]);
