@@ -208,7 +208,7 @@ double CLEuroOptStripPricer(const double dtoday,
 					const double alpha,
 					const double beta)
 {
-	if (dtoday > dstart )
+	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
 	if (dend > doptexp )
@@ -316,7 +316,7 @@ double CLDigitalStripPricer(const double dtoday,
 					const double alpha,
 					const double beta)
 {
-	if (dtoday > dstart )
+	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
 	if (dend > doptexp )
@@ -536,7 +536,7 @@ double CLBarrierStripPricer(const double dtoday,
 					const double alpha,
 					const double beta)
 {
-	if (dtoday > dstart )
+	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
 	if (dend > doptexp )
@@ -718,6 +718,116 @@ MyArray CLFXEuroOptRisks(const double dtoday,
 	return ret;
 }
 
+double CLFXEuroStripPricer(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					MyArray& fxFwdTenors,
+					MyArray& fxFwds,
+					MyArray& fxVolTenors,
+					MyArray& fxVols,
+					const double corr,
+					const std::string outflag,
+					MyArray &hols,
+					const double alpha,
+					const double beta)
+{
+	if (dtoday >= dend )
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp )
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
+		THROW_XLW("The option type is not recognized");
+
+	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
+		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXBlackStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
+	double ret;
+	if (( "p" == outflag ) || ( "P" == outflag ))
+		ret = fbp.price();
+	else if (( "d" == outflag ) || ( "D" == outflag ))
+		ret = fbp.delta();
+	else if (( "g" == outflag ) || ( "G" == outflag ))
+		ret = fbp.gamma();
+	else if (( "v" == outflag ) || ( "V" == outflag ))
+		ret = fbp.vega();
+	else if (( "t" == outflag ) || ( "T" == outflag ))
+		ret = fbp.theta();
+	else if (( "fv" == outflag ) || ( "FV" == outflag ))
+		ret = fbp.fxvega();		
+	else if (( "fd" == outflag ) || ( "FD" == outflag ))
+		ret = fbp.fxdelta();
+	else if (( "z" == outflag ) || ( "Z" == outflag ))
+		ret = 11;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fv");
+	return ret;
+}
+					
+MyArray CLFXEuroStripRisks(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					MyArray& fxFwdTenors,
+					MyArray& fxFwds,
+					MyArray& fxVolTenors,
+					MyArray& fxVols,
+					const double corr,
+					const std::string outflag,
+					MyArray &hols,
+					const double alpha,
+					const double beta)
+{
+	if (dtoday >= dend )
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp )
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
+		THROW_XLW("The option type is not recognized");
+
+	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
+		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXBlackStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
+	MyArray ret;
+	if (( "v" == outflag ) || ( "V" == outflag ))
+		ret = fbp.fxvegas();		
+	else if (( "d" == outflag ) || ( "D" == outflag ))
+		ret = fbp.fxdeltas();
+	else
+		THROW_XLW("The output flag is not valid, should be d, v");
+	return ret;
+}
+
 double CLFXBinOptPricer(const double dtoday,
 					const double dexp,
 					const double fwd,
@@ -771,7 +881,7 @@ double CLFXBinOptPricer(const double dtoday,
 	else if (( "fd" == outflag ) || ( "FD" == outflag ))
 		ret = fdp.fxdelta();
 	else if (( "z" == outflag ) || ( "Z" == outflag ))
-		ret = 11;
+		ret = 12;
 	else
 		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
 	
@@ -823,5 +933,114 @@ MyArray CLFXBinOptRisks(const double dtoday,
 	else
 		THROW_XLW("The output flag is not valid, should be d, v");
 		
+	return ret;
+}
+
+double CLFXBinStripPricer(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					MyArray& fxFwdTenors,
+					MyArray& fxFwds,
+					MyArray& fxVolTenors,
+					MyArray& fxVols,
+					const double corr,
+					const std::string outflag,
+					const double alpha,
+					const double beta)
+{
+	if (dtoday >= dend )
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp )
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
+		THROW_XLW("The option type is not recognized");
+
+	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
+		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXBinStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
+	double ret;
+	if (( "p" == outflag ) || ( "P" == outflag ))
+		ret = fbp.price();
+	else if (( "d" == outflag ) || ( "D" == outflag ))
+		ret = fbp.delta();
+	else if (( "g" == outflag ) || ( "G" == outflag ))
+		ret = fbp.gamma();
+	else if (( "v" == outflag ) || ( "V" == outflag ))
+		ret = fbp.vega();
+	else if (( "t" == outflag ) || ( "T" == outflag ))
+		ret = fbp.theta();
+	else if (( "fv" == outflag ) || ( "FV" == outflag ))
+		ret = fbp.fxvega();		
+	else if (( "fd" == outflag ) || ( "FD" == outflag ))
+		ret = fbp.fxdelta();
+	else if (( "z" == outflag ) || ( "Z" == outflag ))
+		ret = 11;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fv");
+	return ret;
+}
+					
+MyArray CLFXBinStripRisks(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double atm, 
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					MyArray& fxFwdTenors,
+					MyArray& fxFwds,
+					MyArray& fxVolTenors,
+					MyArray& fxVols,
+					const double corr,
+					const std::string outflag,
+					MyArray &hols,
+					const double alpha,
+					const double beta)
+{
+	if (dtoday >= dend )
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp )
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
+		THROW_XLW("The option type is not recognized");
+
+	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
+		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
+
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXBlackStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
+	MyArray ret;
+	if (( "v" == outflag ) || ( "V" == outflag ))
+		ret = fbp.fxvegas();		
+	else if (( "d" == outflag ) || ( "D" == outflag ))
+		ret = fbp.fxdeltas();
+	else
+		THROW_XLW("The output flag is not valid, should be d, v");
 	return ret;
 }
