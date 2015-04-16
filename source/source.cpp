@@ -740,7 +740,7 @@ double CLFXEuroStripPricer(const double dtoday,
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
-	if (dexp > doptexp )
+	if (dend > doptexp )
 		THROW_XLW("the expiry date is later than option expiry date");
 
 	if (beta < 0)
@@ -801,7 +801,7 @@ MyArray CLFXEuroStripRisks(const double dtoday,
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
-	if (dexp > doptexp )
+	if (dend > doptexp )
 		THROW_XLW("the expiry date is later than option expiry date");
 
 	if (beta < 0)
@@ -951,13 +951,14 @@ double CLFXBinStripPricer(const double dtoday,
 					MyArray& fxVols,
 					const double corr,
 					const std::string outflag,
+					MyArray &hols,
 					const double alpha,
 					const double beta)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
-	if (dexp > doptexp )
+	if (dend > doptexp )
 		THROW_XLW("the expiry date is later than option expiry date");
 
 	if (beta < 0)
@@ -1018,7 +1019,7 @@ MyArray CLFXBinStripRisks(const double dtoday,
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
 
-	if (dexp > doptexp )
+	if (dend > doptexp )
 		THROW_XLW("the expiry date is later than option expiry date");
 
 	if (beta < 0)
@@ -1034,7 +1035,7 @@ MyArray CLFXBinStripRisks(const double dtoday,
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
 	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
-	FXBlackStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
+	FXBinStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
 	MyArray ret;
 	if (( "v" == outflag ) || ( "V" == outflag ))
 		ret = fbp.fxvegas();		

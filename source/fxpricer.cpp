@@ -146,9 +146,15 @@ FXStripPricer<T>::FXStripPricer( const double dtoday,
 	_bdays = businessDays(startDate, endDate, hols);
 	for (size_t i = 0; i < _bdays.size(); ++i)
 	{
-		double fxfwd = this->GetFXFwdByDate(_pvec[i].dexp_());
-		_pvec.push_back(T(dtoday, _bdays[i], fwd*fxfwd, vol, strike, 0, otype, fxTenors, fxFwds));
+		_pvec.push_back(new T(dtoday, _bdays[i], fwd, vol, strike, ir, otype, fxTenors, fxFwds));
 	}
+}
+
+template <typename T>
+FXStripPricer<T>::~FXStripPricer()
+{
+	for (size_t i = 0; i < _pvec.size(); ++i) delete _pvec[i];
+	_pvec.clear();
 }
 
 template <typename T>
@@ -157,8 +163,17 @@ void FXStripPricer<T>::setFwd(const double fwd)
 	Pricer::setFwd(fwd);
 	for (size_t i=0; i< _pvec.size(); ++i ) 
 	{
-		double fxfwd = this->GetFXFwdByDate(_pvec[i].dexp_());
-		_pvec[i].setFwd(fxfwd*fwd);
+		_pvec[i]->setFwd(fwd);
+	}
+}
+
+template <typename T>
+void FXStripPricer<T>::setStrike(const double strike)
+{
+	Pricer::setStrike(strike);
+	for (size_t i=0; i< _pvec.size(); ++i ) 
+	{
+		_pvec[i]->setStrike(strike);
 	}
 }
 
@@ -167,7 +182,7 @@ void FXStripPricer<T>::setVol(VolNode *vol)
 { 
 	Pricer::setVol(vol);
 	for (size_t i=0; i< _pvec.size(); ++i ) 
-		_pvec[i].setVol(vol);
+		_pvec[i]->setVol(vol);
 }
 
 template <typename T>
@@ -175,7 +190,7 @@ void FXStripPricer<T>::setIR(const double ir)
 { 
 	FXPricer::setIR(ir);
 	for (size_t i=0; i< _pvec.size(); ++i ) 
-		_pvec[i].setIR(ir);
+		_pvec[i]->setIR(ir);
 }
 
 template <typename T>
@@ -183,7 +198,7 @@ void FXStripPricer<T>::setToday(const double dtoday)
 { 
 	FXPricer::setToday(dtoday);
 	for (size_t i=0; i< _pvec.size(); ++i ) 
-		_pvec[i].setToday(dtoday);
+		_pvec[i]->setToday(dtoday);
 }
 
 template <typename T>
@@ -196,14 +211,13 @@ double FXStripPricer<T>::price()
 	{
 		for (size_t i=0; i< _pvec.size(); ++i )
 		{	
-			double fxfwd = this->GetFXFwdByDate(_pvec[i].dexp_());
-			psum += _pvec[i].price()/fxfwd;
+			psum += _pvec[i]->price();
 		}
-		double dexp = this->dexp_();
-		double dtoday = this->dtoday_();
-		double tExp = (dexp - dtoday)/365.0;
-		double df = std::exp(-this->irate_()*tExp);
-		return psum/_pvec.size()*df;
+		//double dexp = this->dexp_();
+		//double dtoday = this->dtoday_();
+		//double tExp = (dexp - dtoday)/365.0;
+		//double df = std::exp(-this->irate_()*tExp);
+		return psum/_pvec.size();
 	}
 }
 

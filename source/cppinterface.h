@@ -318,6 +318,7 @@ double CLFXBinStripPricer(const double dtoday,
 					MyArray& fxVols,
 					const double corr,
 					const std::string outflag,
+					MyArray &hols,
 					const double alpha,
 					const double beta);	
 MyArray CLFXBinStripRisks(const double dtoday,
@@ -335,6 +336,7 @@ MyArray CLFXBinStripRisks(const double dtoday,
 					MyArray& fxVols,
 					const double corr,
 					const std::string outflag,
+					MyArray &hols,
 					const double alpha,
 					const double beta);
 #endif

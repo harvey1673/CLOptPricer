@@ -55,14 +55,15 @@ public:
 		const double strike, const double ir, 
 		const std::string otype, const DblVector &hols, 
 		DblVector& fxTenors, DblVector& fxFwds );
-	//~FXStripPricer();
+	~FXStripPricer();
 	virtual double price();
 	virtual void setFwd( const double fwd);
+	virtual void setStrike( const double strike);
 	virtual void setVol( VolNode *vol);
 	virtual void setIR( const double ir);
 	virtual void setToday( const double dtoday);
 private:
-	vector<T> _pvec;
+	vector<T *> _pvec;
 	DblVector _bdays;
 	DblVector _hols;
 	double _sDate;
