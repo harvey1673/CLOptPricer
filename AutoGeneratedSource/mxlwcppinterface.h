@@ -230,3 +230,163 @@ mxlw_CLCalibHistBreakevenVol		(
 		MyArray contDates, //too lazy to comment this one
 		std::string out_table //too lazy to comment this one
  );
+double  // too lazy to comment this function
+mxlw_CLFXEuroOptPricer		(
+		double dtoday, //too lazy to comment this one
+		double dexp, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+MyArray  // too lazy to comment this function
+mxlw_CLFXEuroOptRisks		(
+		double dtoday, //too lazy to comment this one
+		double dexp, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+double  // too lazy to comment this function
+mxlw_CLFXEuroStripPricer		(
+		double dtoday, //too lazy to comment this one
+		double dstart, //too lazy to comment this one
+		double dend, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		MyArray hols, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+MyArray  // too lazy to comment this function
+mxlw_CLFXEuroStripRisks		(
+		double dtoday, //too lazy to comment this one
+		double dstart, //too lazy to comment this one
+		double dend, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		MyArray hols, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+double  // too lazy to comment this function
+mxlw_CLFXBinOptPricer		(
+		double dtoday, //too lazy to comment this one
+		double dexp, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+MyArray  // too lazy to comment this function
+mxlw_CLFXBinOptRisks		(
+		double dtoday, //too lazy to comment this one
+		double dexp, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+double  // too lazy to comment this function
+mxlw_CLFXBinStripPricer		(
+		double dtoday, //too lazy to comment this one
+		double dstart, //too lazy to comment this one
+		double dend, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		MyArray hols, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );
+MyArray  // too lazy to comment this function
+mxlw_CLFXBinStripRisks		(
+		double dtoday, //too lazy to comment this one
+		double dstart, //too lazy to comment this one
+		double dend, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		MyArray fxFwdTenors, //too lazy to comment this one
+		MyArray fxFwds, //too lazy to comment this one
+		MyArray fxVolTenors, //too lazy to comment this one
+		MyArray fxVols, //too lazy to comment this one
+		double corr, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		MyArray hols, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta //too lazy to comment this one
+ );

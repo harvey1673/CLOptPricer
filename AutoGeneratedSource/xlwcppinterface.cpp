@@ -1561,6 +1561,1134 @@ EXCEL_END
 
 //////////////////////////
 
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXEuroOptPricerArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dexp","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXEuroOptPricer("xlmxlw_CLFXEuroOptPricer",
+"CLFXEuroOptPricer",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXEuroOptPricerArgs,
+16
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXEuroOptPricer(
+double dtoday,
+double dexp,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+
+
+double result(
+	mxlw_CLFXEuroOptPricer(
+		dtoday,
+		dexp,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXEuroOptRisksArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dexp","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXEuroOptRisks("xlmxlw_CLFXEuroOptRisks",
+"CLFXEuroOptRisks",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXEuroOptRisksArgs,
+16
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXEuroOptRisks(
+double dtoday,
+double dexp,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+
+
+MyArray result(
+	mxlw_CLFXEuroOptRisks(
+		dtoday,
+		dexp,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXEuroStripPricerArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dstart","too lazy to comment this one ","B"},
+{ "dend","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "hols","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXEuroStripPricer("xlmxlw_CLFXEuroStripPricer",
+"CLFXEuroStripPricer",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXEuroStripPricerArgs,
+18
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXEuroStripPricer(
+double dtoday,
+double dstart,
+double dend,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+LPXLFOPER holsa,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper holsb(
+	(holsa));
+MyArray hols(
+	holsb.AsArray("hols"));
+
+
+
+double result(
+	mxlw_CLFXEuroStripPricer(
+		dtoday,
+		dstart,
+		dend,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		hols,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXEuroStripRisksArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dstart","too lazy to comment this one ","B"},
+{ "dend","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "hols","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXEuroStripRisks("xlmxlw_CLFXEuroStripRisks",
+"CLFXEuroStripRisks",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXEuroStripRisksArgs,
+18
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXEuroStripRisks(
+double dtoday,
+double dstart,
+double dend,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+LPXLFOPER holsa,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper holsb(
+	(holsa));
+MyArray hols(
+	holsb.AsArray("hols"));
+
+
+
+MyArray result(
+	mxlw_CLFXEuroStripRisks(
+		dtoday,
+		dstart,
+		dend,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		hols,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXBinOptPricerArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dexp","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXBinOptPricer("xlmxlw_CLFXBinOptPricer",
+"CLFXBinOptPricer",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXBinOptPricerArgs,
+16
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXBinOptPricer(
+double dtoday,
+double dexp,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+
+
+double result(
+	mxlw_CLFXBinOptPricer(
+		dtoday,
+		dexp,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXBinOptRisksArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dexp","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXBinOptRisks("xlmxlw_CLFXBinOptRisks",
+"CLFXBinOptRisks",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXBinOptRisksArgs,
+16
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXBinOptRisks(
+double dtoday,
+double dexp,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+
+
+MyArray result(
+	mxlw_CLFXBinOptRisks(
+		dtoday,
+		dexp,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXBinStripPricerArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dstart","too lazy to comment this one ","B"},
+{ "dend","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "hols","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXBinStripPricer("xlmxlw_CLFXBinStripPricer",
+"CLFXBinStripPricer",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXBinStripPricerArgs,
+18
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXBinStripPricer(
+double dtoday,
+double dstart,
+double dend,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+LPXLFOPER holsa,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper holsb(
+	(holsa));
+MyArray hols(
+	holsb.AsArray("hols"));
+
+
+
+double result(
+	mxlw_CLFXBinStripPricer(
+		dtoday,
+		dstart,
+		dend,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		hols,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLFXBinStripRisksArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dstart","too lazy to comment this one ","B"},
+{ "dend","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwdTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxFwds","too lazy to comment this one ","XLF_OPER"},
+{ "fxVolTenors","too lazy to comment this one ","XLF_OPER"},
+{ "fxVols","too lazy to comment this one ","XLF_OPER"},
+{ "corr","too lazy to comment this one ","B"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "hols","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLFXBinStripRisks("xlmxlw_CLFXBinStripRisks",
+"CLFXBinStripRisks",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLFXBinStripRisksArgs,
+18
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLFXBinStripRisks(
+double dtoday,
+double dstart,
+double dend,
+double fwd,
+double strike,
+double atm,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER fxFwdTenorsa,
+LPXLFOPER fxFwdsa,
+LPXLFOPER fxVolTenorsa,
+LPXLFOPER fxVolsa,
+double corr,
+LPXLFOPER outflaga,
+LPXLFOPER holsa,
+double alpha,
+double beta)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper fxFwdTenorsb(
+	(fxFwdTenorsa));
+MyArray fxFwdTenors(
+	fxFwdTenorsb.AsArray("fxFwdTenors"));
+
+XlfOper fxFwdsb(
+	(fxFwdsa));
+MyArray fxFwds(
+	fxFwdsb.AsArray("fxFwds"));
+
+XlfOper fxVolTenorsb(
+	(fxVolTenorsa));
+MyArray fxVolTenors(
+	fxVolTenorsb.AsArray("fxVolTenors"));
+
+XlfOper fxVolsb(
+	(fxVolsa));
+MyArray fxVols(
+	fxVolsb.AsArray("fxVols"));
+
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper holsb(
+	(holsa));
+MyArray hols(
+	holsb.AsArray("hols"));
+
+
+
+MyArray result(
+	mxlw_CLFXBinStripRisks(
+		dtoday,
+		dstart,
+		dend,
+		fwd,
+		strike,
+		atm,
+		doptexp,
+		ir,
+		otype,
+		fxFwdTenors,
+		fxFwds,
+		fxVolTenors,
+		fxVols,
+		corr,
+		outflag,
+		hols,
+		alpha,
+		beta)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
 //////////////////////////
 // Methods that will get registered to execute in AutoOpen
 //////////////////////////

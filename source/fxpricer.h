@@ -20,10 +20,13 @@ public:
 	virtual DblVector fxdeltas();
 	virtual double fxvega();
 	virtual DblVector fxvegas();
+	virtual double paydate() { return _dpayment; }
+	virtual void setPaydate(const double dpay) { _dpayment = dpay; }
 private:
 	DblVector& _fxTenors;
 	DblVector& _fxFwds;
 	FwdInterp* _fwdInterp;
+	double _dpayment;
 };	
 
 class FXBlackPricer: public FXPricer {
@@ -62,6 +65,7 @@ public:
 	virtual void setVol( VolNode *vol);
 	virtual void setIR( const double ir);
 	virtual void setToday( const double dtoday);
+	virtual void setPaydate( const double dpay);
 private:
 	vector<T *> _pvec;
 	DblVector _bdays;

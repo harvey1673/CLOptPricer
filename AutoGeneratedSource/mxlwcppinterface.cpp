@@ -353,3 +353,227 @@ int mxlw_CLCalibHistBreakevenVol
 
 ////////////////////////////////////
 
+double mxlw_CLFXEuroOptPricer
+		(
+		double dtoday,
+		double dexp,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXEuroOptPricer(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+MyArray mxlw_CLFXEuroOptRisks
+		(
+		double dtoday,
+		double dexp,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXEuroOptRisks(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+double mxlw_CLFXEuroStripPricer
+		(
+		double dtoday,
+		double dstart,
+		double dend,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		MyArray hols,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXEuroStripPricer(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+MyArray mxlw_CLFXEuroStripRisks
+		(
+		double dtoday,
+		double dstart,
+		double dend,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		MyArray hols,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXEuroStripRisks(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+double mxlw_CLFXBinOptPricer
+		(
+		double dtoday,
+		double dexp,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXBinOptPricer(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+MyArray mxlw_CLFXBinOptRisks
+		(
+		double dtoday,
+		double dexp,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXBinOptRisks(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+double mxlw_CLFXBinStripPricer
+		(
+		double dtoday,
+		double dstart,
+		double dend,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		MyArray hols,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXBinStripPricer(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+MyArray mxlw_CLFXBinStripRisks
+		(
+		double dtoday,
+		double dstart,
+		double dend,
+		double fwd,
+		double strike,
+		double atm,
+		double doptexp,
+		double ir,
+		std::string otype,
+		MyArray fxFwdTenors,
+		MyArray fxFwds,
+		MyArray fxVolTenors,
+		MyArray fxVols,
+		double corr,
+		std::string outflag,
+		MyArray hols,
+		double alpha,
+		double beta
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLFXBinStripRisks(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+

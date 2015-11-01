@@ -663,7 +663,7 @@ double CLFXEuroOptPricer(const double dtoday,
 	//else if (( "fds" == outflag ) || ( "FDS" == outflag ))
 	//	ret = fbp.fxdeltas();
 	else if (( "z" == outflag ) || ( "Z" == outflag ))
-		ret = 10;
+		ret = 8;
 	else
 		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
 	
@@ -773,7 +773,7 @@ double CLFXEuroStripPricer(const double dtoday,
 	else if (( "fd" == outflag ) || ( "FD" == outflag ))
 		ret = fbp.fxdelta();
 	else if (( "z" == outflag ) || ( "Z" == outflag ))
-		ret = 11;
+		ret = 10;
 	else
 		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fv");
 	return ret;
@@ -881,7 +881,7 @@ double CLFXBinOptPricer(const double dtoday,
 	else if (( "fd" == outflag ) || ( "FD" == outflag ))
 		ret = fdp.fxdelta();
 	else if (( "z" == outflag ) || ( "Z" == outflag ))
-		ret = 12;
+		ret = 9;
 	else
 		THROW_XLW("The output flag is not valid, should be p,d,g,v,t,fd,fds,fv,fvs");
 	

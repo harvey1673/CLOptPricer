@@ -5,6 +5,7 @@ FXPricer::FXPricer(const double dtoday, const double dexp,
 			std::string otype, DblVector& fxTenors, DblVector& fxFwds) :
 			Pricer(dtoday, dexp, fwd, vol, strike, ir, otype), _fxTenors(fxTenors), _fxFwds(fxFwds)
 {
+	_dpayment = dexp;
 	_fwdInterp = new FwdInterp(dtoday, &_fxTenors, &_fxFwds);
 }
 
@@ -29,15 +30,15 @@ double FXPricer::fxdelta()
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
 	{
 		fxfwd.push_back(_fxFwds[i]);
-		this->setFxFwd(_fxFwds[i] * ( 1 + eps ), i );
+		this->setFxFwd(_fxFwds[i] /( 1 + eps ), i );
 	}
 	double uprice = this->price();
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
-		this->setFxFwd( fxfwd[i]  * ( 1 - eps ), i );
+		this->setFxFwd( fxfwd[i]  / ( 1 - eps ), i );
 	double dprice = this->price();
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
 		this->setFxFwd( fxfwd[i], i );
-	return (uprice - dprice)/(2*eps*spot);
+	return (uprice - dprice)/(2*eps/spot);
 }
 
 DblVector FXPricer::fxdeltas()
@@ -48,12 +49,12 @@ DblVector FXPricer::fxdeltas()
 	for (size_t i = 0; i < _fxFwds.size(); ++i)
 	{
 		fxfwd = _fxFwds[i];
-		this->setFxFwd( fxfwd * ( 1 + eps ), i );
+		this->setFxFwd( fxfwd / ( 1 + eps ), i );
 		double uprice = this->price();
-		this->setFxFwd( fxfwd * ( 1 - eps ), i );
+		this->setFxFwd( fxfwd / ( 1 - eps ), i );
 		double dprice = this->price();
 		this->setFxFwd( fxfwd, i );
-		deltas.push_back((uprice - dprice)/(2*eps*fxfwd));
+		deltas.push_back((uprice - dprice)/(2*eps/fxfwd));
 	}
 	return deltas;
 }
@@ -108,9 +109,12 @@ double FXBlackPricer::price()
 	double comfwd = fwd * fxfwd;
 	double comvol = vol->GetVolByMoneyness( std::log(strike/fwd), dexp);
 	double tExp = (dexp - dtoday)/365.0;
-	double df = std::exp(-this->irate_()*tExp);
 	std::string PutCall = this->otype_();
 	double pr = BlackPrice(comfwd, strike, comvol, tExp, 1, PutCall);
+	double dpay = this->paydate();
+	double tPay = (dpay - dtoday)/365.0;
+	double df = std::exp(-this->irate_()*tPay);
+	fxfwd = this->GetFXFwdByDate(dpay);
 	pr = pr/fxfwd * df;
 	return pr;
 }
@@ -125,10 +129,13 @@ double FXDigitalPricer::price()
 	double fxfwd = this->GetFXFwdByDate(dexp);
 	double comfwd = fwd * fxfwd;
 	double tExp = (dexp - dtoday)/365.0;
-	double df = std::exp(-this->irate_()*tExp);
 	std::string otype = this->otype_();
 	DigitalPricer dp(dtoday, dexp, comfwd, vol, strike, 0.0, otype);
 	double pr = dp.price();
+	double dpay = this->paydate();
+	double tPay = (dpay - dtoday)/365.0;
+	double df = std::exp(-this->irate_()*tPay);
+	fxfwd = this->GetFXFwdByDate(dpay);
 	pr = pr/fxfwd * df;
 	return pr;
 }
@@ -146,8 +153,9 @@ FXStripPricer<T>::FXStripPricer( const double dtoday,
 	_bdays = businessDays(startDate, endDate, hols);
 	for (size_t i = 0; i < _bdays.size(); ++i)
 	{
-		_pvec.push_back(new T(dtoday, _bdays[i], fwd, vol, strike, ir, otype, fxTenors, fxFwds));
+		_pvec.push_back( new T(dtoday, _bdays[i], fwd, vol, strike, ir, otype, fxTenors, fxFwds));
 	}
+	this->setPaydate(endDate);
 }
 
 template <typename T>
@@ -199,6 +207,14 @@ void FXStripPricer<T>::setToday(const double dtoday)
 	FXPricer::setToday(dtoday);
 	for (size_t i=0; i< _pvec.size(); ++i ) 
 		_pvec[i]->setToday(dtoday);
+}
+
+template <typename T>
+void FXStripPricer<T>::setPaydate(const double dpay)
+{ 
+	FXPricer::setPaydate(dpay);
+	for (size_t i=0; i< _pvec.size(); ++i ) 
+		_pvec[i]->setPaydate(dpay);
 }
 
 template <typename T>

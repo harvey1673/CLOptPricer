@@ -158,4 +158,31 @@ private:
 	double _alpha;
 	double _beta;
 };
+
+//class FXSmileVol: public FXVol {
+//public:
+//	FXSmileVol(const double dtoday, 
+//		  const DblVector fxTenors,
+//		  const DblVector fxAtmVols,
+//		  const DblVector fxD10Vols,
+//		  const DblVector fxD25Vols,
+//		  const DblVector fxD75Vols,
+//		  const DblVector fxD90Vols);
+//	~FXSmileVol();	  
+//	double fxAtmVol(unsigned int i);
+//	double fxD10Vol(unsigned int i);
+//	double fxD25Vol(unsigned int i);
+//	double fxD75Vol(unsigned int i);
+//	double fxD90Vol(unsigned int i);
+//	double GetFXVolByDate(double dmat) { return _volInterp->InterpByExpiry(dmat); }
+//	DblVector& fxAtmVols_() { return _fxAtmVols; }
+//	DblVector& fxTenors_()  { return _fxTenors; }
+//	void setFxAtmVols(double vol, unsigned int index) { if (index <= _fxAtmVols.size()) _fxAtmVols[index] = vol;}
+//	virtual void setToday( double dtoday ) { _volInterp->setToday(dtoday); }
+//private:
+//	DblVector _fxTenors;
+//	DblVector _fxAtmVols;
+//	VolInterp* _volInterp;
+//};
+
 #endif
