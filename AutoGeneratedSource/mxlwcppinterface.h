@@ -31,7 +31,8 @@ mxlw_CLSmileVolbyStrike		(
 		double v75, //too lazy to comment this one
 		double v25, //too lazy to comment this one
 		double v10, //too lazy to comment this one
-		double K //too lazy to comment this one
+		double K, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLSmileVolbyDelta		(
@@ -43,7 +44,8 @@ mxlw_CLSmileVolbyDelta		(
 		double v75, //too lazy to comment this one
 		double v25, //too lazy to comment this one
 		double v10, //too lazy to comment this one
-		double delta //too lazy to comment this one
+		double delta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLSmileEuroOptPricer		(
@@ -61,10 +63,11 @@ mxlw_CLSmileEuroOptPricer		(
 		std::string otype, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
-mxlw_CLEuroOptStripPricer		(
+mxlw_CLEuroOptStrip		(
 		double dtoday, //too lazy to comment this one
 		double dstart, //too lazy to comment this one
 		double dend, //too lazy to comment this one
@@ -81,7 +84,8 @@ mxlw_CLEuroOptStripPricer		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLSmileBinOptPricer		(
@@ -99,10 +103,11 @@ mxlw_CLSmileBinOptPricer		(
 		std::string otype, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
-mxlw_CLDigitalStripPricer		(
+mxlw_CLDigitalStrip		(
 		double dtoday, //too lazy to comment this one
 		double dstart, //too lazy to comment this one
 		double dend, //too lazy to comment this one
@@ -119,7 +124,8 @@ mxlw_CLDigitalStripPricer		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLSprdOptPricer		(
@@ -130,7 +136,8 @@ mxlw_CLSprdOptPricer		(
 		double atm, //too lazy to comment this one
 		double ir, //too lazy to comment this one
 		std::string otype, //too lazy to comment this one
-		std::string outflag //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLBlackImpliedVol		(
@@ -163,7 +170,7 @@ mxlw_CLBlackDelta		(
 		std::string otype //too lazy to comment this one
  );
 double  // too lazy to comment this function
-mxlw_CLBarrierOptFlatVolPricer		(
+mxlw_CLBarrierFlatVolPricer		(
 		double dtoday, //too lazy to comment this one
 		double dexp, //too lazy to comment this one
 		double fwd, //too lazy to comment this one
@@ -177,10 +184,11 @@ mxlw_CLBarrierOptFlatVolPricer		(
 		std::string mtype, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
-mxlw_CLBarrierOptSmilePricer		(
+mxlw_CLBarrierSmilePricer		(
 		double dtoday, //too lazy to comment this one
 		double dexp, //too lazy to comment this one
 		double fwd, //too lazy to comment this one
@@ -198,10 +206,11 @@ mxlw_CLBarrierOptSmilePricer		(
 		std::string mtype, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
-mxlw_CLBarrierStripPricer		(
+mxlw_CLBarrierStrip		(
 		double dtoday, //too lazy to comment this one
 		double dstart, //too lazy to comment this one
 		double dend, //too lazy to comment this one
@@ -217,7 +226,68 @@ mxlw_CLBarrierStripPricer		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
+ );
+double  // too lazy to comment this function
+mxlw_CLBarrierSmileStrip		(
+		double dtoday, //too lazy to comment this one
+		double dstart, //too lazy to comment this one
+		double dend, //too lazy to comment this one
+		double fwd, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double barrier, //too lazy to comment this one
+		std::string btype, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double v90, //too lazy to comment this one
+		double v75, //too lazy to comment this one
+		double v25, //too lazy to comment this one
+		double v10, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		std::string mtype, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		MyArray hols, //too lazy to comment this one
+		double alpha, //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
+ );
+double  // too lazy to comment this function
+mxlw_CLSpotBarrierPricer		(
+		double dtoday, //too lazy to comment this one
+		double dexp, //too lazy to comment this one
+		double spot, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double barrier, //too lazy to comment this one
+		std::string btype, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		double div, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		std::string mtype, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
+ );
+double  // too lazy to comment this function
+mxlw_CLSpotBarrierStrip		(
+		double dtoday, //too lazy to comment this one
+		double dstart, //too lazy to comment this one
+		double dend, //too lazy to comment this one
+		double spot, //too lazy to comment this one
+		double strike, //too lazy to comment this one
+		double barrier, //too lazy to comment this one
+		std::string btype, //too lazy to comment this one
+		double atm, //too lazy to comment this one
+		double doptexp, //too lazy to comment this one
+		double ir, //too lazy to comment this one
+		double div, //too lazy to comment this one
+		std::string otype, //too lazy to comment this one
+		std::string mtype, //too lazy to comment this one
+		std::string outflag, //too lazy to comment this one
+		MyArray hols, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 int  // too lazy to comment this function
 mxlw_CLCalibHistBreakevenVol		(
@@ -247,7 +317,8 @@ mxlw_CLFXEuroOptPricer		(
 		double corr, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 MyArray  // too lazy to comment this function
 mxlw_CLFXEuroOptRisks		(
@@ -266,7 +337,8 @@ mxlw_CLFXEuroOptRisks		(
 		double corr, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLFXEuroStripPricer		(
@@ -287,7 +359,8 @@ mxlw_CLFXEuroStripPricer		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 MyArray  // too lazy to comment this function
 mxlw_CLFXEuroStripRisks		(
@@ -308,7 +381,8 @@ mxlw_CLFXEuroStripRisks		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLFXBinOptPricer		(
@@ -327,7 +401,8 @@ mxlw_CLFXBinOptPricer		(
 		double corr, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 MyArray  // too lazy to comment this function
 mxlw_CLFXBinOptRisks		(
@@ -346,7 +421,8 @@ mxlw_CLFXBinOptRisks		(
 		double corr, //too lazy to comment this one
 		std::string outflag, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 double  // too lazy to comment this function
 mxlw_CLFXBinStripPricer		(
@@ -367,7 +443,8 @@ mxlw_CLFXBinStripPricer		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );
 MyArray  // too lazy to comment this function
 mxlw_CLFXBinStripRisks		(
@@ -388,5 +465,6 @@ mxlw_CLFXBinStripRisks		(
 		std::string outflag, //too lazy to comment this one
 		MyArray hols, //too lazy to comment this one
 		double alpha, //too lazy to comment this one
-		double beta //too lazy to comment this one
+		double beta, //too lazy to comment this one
+		std::string accrual //too lazy to comment this one
  );

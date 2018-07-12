@@ -4,6 +4,7 @@
 #include <string>
 #include "volmodel.h"
 #include "euopt.h"
+#include "amopt.h"
 #include "barrier.h"
 #include "math_utils.h"
 
@@ -51,6 +52,16 @@ private:
 class BlackPricer : public Pricer {
 public:
 	BlackPricer( const double dtoday, const double dexp, 
+			const double fwd, VolNode *vol,
+			const double strike, const double ir, std::string otype)
+			: Pricer( dtoday, dexp, fwd, vol, strike, ir, otype ) {}
+
+	virtual double price();
+};
+
+class AmericanFutPricer : public Pricer {
+public:
+	AmericanFutPricer( const double dtoday, const double dexp, 
 			const double fwd, VolNode *vol,
 			const double strike, const double ir, std::string otype)
 			: Pricer( dtoday, dexp, fwd, vol, strike, ir, otype ) {}
@@ -179,4 +190,5 @@ private:
 	std::string _btype;
 	std::string _mtype;
 };
+
 #endif

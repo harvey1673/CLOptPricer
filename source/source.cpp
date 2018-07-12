@@ -42,7 +42,8 @@ double CLSmileVolbyStrike(const double dtoday,
 					const double v75, 
 					const double v25, 
 					const double v10,
-					const double K)
+					const double K,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -50,7 +51,7 @@ double CLSmileVolbyStrike(const double dtoday,
 	if ((atm <= 0) || (fwd <= 0) || (K <= 0))
 		THROW_XLW("Either price or vol is not positive");
 
-	Delta5VolNode vol(dtoday, dexp, fwd, atm, v90, v75, v25, v10, 0.75);
+	Delta5VolNode vol(dtoday, dexp, fwd, atm, v90, v75, v25, v10, accrual);
 	return vol.GetVolByStrike(K);
 }
 
@@ -62,14 +63,15 @@ double CLSmileVolbyDelta(const double dtoday,
 					const double v75, 
 					const double v25, 
 					const double v10,
-					const double delta)
+					const double delta, 
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
 	if ((atm <= 0) || (fwd <= 0) || (delta < 0))
 		THROW_XLW("Either price or vol is not positive");
 
-	Delta5VolNode vol(dtoday, dexp, fwd, atm, v90, v75, v25, v10, 0.75);
+	Delta5VolNode vol(dtoday, dexp, fwd, atm, v90, v75, v25, v10, accrual);
 	return vol.GetVolByDelta(delta);
 }
 
@@ -151,7 +153,8 @@ double CLSmileEuroOptPricer(const double dtoday,
 					const std::string otype,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -168,7 +171,7 @@ double CLSmileEuroOptPricer(const double dtoday,
 	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
 		THROW_XLW("The option type is not recognized");
 
-	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, 0.75);
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
 	BlackPricer bp(dtoday, dexp, fwd, &vol, strike, ir, otype);
 
 	double ret = 0.0;
@@ -190,7 +193,7 @@ double CLSmileEuroOptPricer(const double dtoday,
 	return ret;
 }
 
-double CLEuroOptStripPricer(const double dtoday,
+double CLEuroOptStrip(const double dtoday,
 					const double dstart,
 					const double dend,
 					const double fwd,
@@ -206,7 +209,8 @@ double CLEuroOptStripPricer(const double dtoday,
 					const std::string outflag,
 					const MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta, 
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -223,7 +227,7 @@ double CLEuroOptStripPricer(const double dtoday,
 	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
 		THROW_XLW("The option type is not recognized");
 
-	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, 0.75);
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
 	BlackStripPricer bsp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols);
 
 	double ret = 0.0;
@@ -259,7 +263,8 @@ double CLSmileBinOptPricer(const double dtoday,
 					const std::string otype,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -276,7 +281,7 @@ double CLSmileBinOptPricer(const double dtoday,
 	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
 		THROW_XLW("The option type is not recognized");
 
-	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, 0.75);
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
 	DigitalPricer dp(dtoday, dexp, fwd, &vol, strike, ir, otype);
 
 	double ret = 0.0;
@@ -298,7 +303,7 @@ double CLSmileBinOptPricer(const double dtoday,
 	return ret;
 }
 
-double CLDigitalStripPricer(const double dtoday,
+double CLDigitalStrip(const double dtoday,
 					const double dstart,
 					const double dend,
 					const double fwd,
@@ -314,7 +319,8 @@ double CLDigitalStripPricer(const double dtoday,
 					const std::string outflag,
 					const MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -331,7 +337,7 @@ double CLDigitalStripPricer(const double dtoday,
 	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
 		THROW_XLW("The option type is not recognized");
 
-	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, 0.75);
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
 	DigitalStripPricer dsp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols);
 
 	double ret = 0.0;
@@ -360,7 +366,8 @@ double CLSprdOptPricer(const double dtoday,
 					const double atm,
 					const double ir,
 					const std::string otype,
-					const std::string outflag)
+					const std::string outflag,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("The expiry date has passed already");
@@ -371,7 +378,7 @@ double CLSprdOptPricer(const double dtoday,
 	if ( (otype!= "c") && (otype!= "C") && (otype!= "p") && (otype!= "P") )
 		THROW_XLW("The option type is not recognized");
 
-	VolNode vol(atm, dtoday, dexp);
+	VolNode vol(atm, dtoday, dexp, accrual);
 	BachelierPricer p(dtoday, dexp, fwd, &vol, strike, ir, otype);
 
 	double ret = 0.0;
@@ -393,7 +400,7 @@ double CLSprdOptPricer(const double dtoday,
 	return ret;
 }
 
-double CLBarrierOptFlatVolPricer(const double dtoday,
+double CLBarrierFlatVolPricer(const double dtoday,
 					const double dexp,
 					const double fwd,
 					const double strike,
@@ -406,7 +413,8 @@ double CLBarrierOptFlatVolPricer(const double dtoday,
 					const std::string mtype,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -432,7 +440,7 @@ double CLBarrierOptFlatVolPricer(const double dtoday,
 	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
 		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
 
-	SamuelVolNode vol(dtoday, doptexp, atm, alpha, beta);
+	SamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual);
 	BarrierPricer bp(dtoday, dexp, fwd, &vol, strike, barrier, btype, ir, otype, mtype);
 
 	double ret = 0.0;
@@ -454,7 +462,7 @@ double CLBarrierOptFlatVolPricer(const double dtoday,
 	return ret;
 }
 
-double CLBarrierOptSmilePricer(const double dtoday,
+double CLBarrierSmilePricer(const double dtoday,
 					const double dexp,
 					const double fwd,
 					const double strike,
@@ -471,7 +479,8 @@ double CLBarrierOptSmilePricer(const double dtoday,
 					const std::string mtype,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -497,7 +506,7 @@ double CLBarrierOptSmilePricer(const double dtoday,
 	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
 		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
 	
-	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, 0.75);
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
 	BarrierSmilePricer bp(dtoday, dexp, fwd, &vol, strike, barrier, btype, ir, otype, mtype, 1600, 6.0);
 
 	double ret = 0.0;
@@ -519,7 +528,7 @@ double CLBarrierOptSmilePricer(const double dtoday,
 	return ret;
 }
 
-double CLBarrierStripPricer(const double dtoday,
+double CLBarrierStrip(const double dtoday,
 					const double dstart,
 					const double dend,
 					const double fwd,
@@ -534,7 +543,8 @@ double CLBarrierStripPricer(const double dtoday,
 					const std::string outflag,
 					const MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -560,7 +570,7 @@ double CLBarrierStripPricer(const double dtoday,
 	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
 		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
 
-	SamuelVolNode vol(dtoday, doptexp, atm, alpha, beta);
+	SamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual);
 	BarrierStripPricer bsp(dtoday, dstart, dend, fwd, &vol, strike, barrier, btype, ir, otype, mtype, hols );
 
 	double ret = 0.0;
@@ -581,6 +591,193 @@ double CLBarrierStripPricer(const double dtoday,
 
 	return ret;
 }
+
+double CLBarrierSmileStrip(const double dtoday,
+	const double dstart,
+	const double dend,
+	const double fwd,
+	const double strike,
+	const double barrier,
+	const std::string btype,
+	const double atm,
+	const double v90,
+	const double v75,
+	const double v25,
+	const double v10,
+	const double doptexp,
+	const double ir,
+	const std::string otype,
+	const std::string mtype,
+	const std::string outflag,
+	const MyArray &hols,
+	const double alpha,
+	const double beta,
+	const std::string accrual)
+{
+	if (dtoday >= dend)
+		THROW_XLW("the expiry date has passed already");
+
+	if (dend > doptexp)
+		THROW_XLW("the end date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ((otype != "c") && (otype != "C") && (otype != "p") && (otype != "P"))
+		THROW_XLW("The option type is not recognized");
+
+	if ((btype.length() != 2) || ((btype.at(0) != 'D') && (btype.at(0) != 'd') &&
+		(btype.at(0) != 'U') && (btype.at(0) != 'u') &&
+		(btype.at(1) != 'O') && (btype.at(1) != 'o') &&
+		(btype.at(1) != 'I') && (btype.at(1) != 'i')))
+		THROW_XLW("The barrier type is not recognized, should be one of uo,ui,do,di");
+
+	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
+		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
+
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
+	BarrierStripPricer bsp(dtoday, dstart, dend, fwd, &vol, strike, barrier, btype, ir, otype, mtype, hols);
+
+	double ret = 0.0;
+	if (("p" == outflag) || ("P" == outflag))
+		ret = bsp.price();
+	else if (("d" == outflag) || ("D" == outflag))
+		ret = bsp.delta();
+	else if (("g" == outflag) || ("G" == outflag))
+		ret = bsp.gamma();
+	else if (("v" == outflag) || ("V" == outflag))
+		ret = bsp.vega();
+	else if (("t" == outflag) || ("T" == outflag))
+		ret = bsp.theta();
+	else if (("z" == outflag) || ("Z" == outflag))
+		ret = 7;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t");
+
+	return ret;
+}
+
+double CLSpotBarrierPricer(const double dtoday,
+	const double dexp,
+	const double spot,
+	const double strike,
+	const double barrier,
+	const std::string btype,
+	const double atm,
+	const double doptexp,	
+	const double ir,
+	const double div,
+	const std::string otype,
+	const std::string mtype,
+	const std::string outflag,
+	const std::string accrual)
+{
+	if (dtoday > dexp)
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp)
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if ((atm <= 0) || (spot <= 0) || (strike <= 0) || (barrier <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ((otype != "c") && (otype != "C") && (otype != "p") && (otype != "P"))
+		THROW_XLW("The option type is not recognized");
+
+	if ((btype.length() != 2) || ((btype.at(0) != 'D') && (btype.at(0) != 'd') &&
+		(btype.at(0) != 'U') && (btype.at(0) != 'u') &&
+		(btype.at(1) != 'O') && (btype.at(1) != 'o') &&
+		(btype.at(1) != 'I') && (btype.at(1) != 'i')))
+		THROW_XLW("The barrier type is not recognized, should be one of uo,ui,do,di");
+
+	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
+		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
+
+	VolNode vol(atm, dtoday, doptexp, accrual);
+	SpotBarrierPricer bp(dtoday, dexp, spot, &vol, strike, barrier, btype, ir, div, otype, mtype);
+
+	double ret = 0.0;
+	if (("p" == outflag) || ("P" == outflag))
+		ret = bp.price();
+	else if (("d" == outflag) || ("D" == outflag))
+		ret = bp.delta();
+	else if (("g" == outflag) || ("G" == outflag))
+		ret = bp.gamma();
+	else if (("v" == outflag) || ("V" == outflag))
+		ret = bp.vega();
+	else if (("t" == outflag) || ("T" == outflag))
+		ret = bp.theta();
+	else if (("z" == outflag) || ("Z" == outflag))
+		ret = 12;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t");
+
+	return ret;
+}
+
+double CLSpotBarrierStrip(const double dtoday,
+	const double dstart,
+	const double dend,
+	const double spot,
+	const double strike,
+	const double barrier,
+	const std::string btype,
+	const double atm,
+	const double doptexp,
+	const double ir,
+	const double div,
+	const std::string otype,
+	const std::string mtype,
+	const std::string outflag,
+	const MyArray &hols,
+	const std::string accrual)
+{
+	if (dtoday >= dend)
+		THROW_XLW("the expiry date has passed already");
+
+	if (dend > doptexp)
+		THROW_XLW("the end date is later than option expiry date");
+
+	if ((atm <= 0) || (spot <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ((otype != "c") && (otype != "C") && (otype != "p") && (otype != "P"))
+		THROW_XLW("The option type is not recognized");
+
+	if ((btype.length() != 2) || ((btype.at(0) != 'D') && (btype.at(0) != 'd') &&
+		(btype.at(0) != 'U') && (btype.at(0) != 'u') &&
+		(btype.at(1) != 'O') && (btype.at(1) != 'o') &&
+		(btype.at(1) != 'I') && (btype.at(1) != 'i')))
+		THROW_XLW("The barrier type is not recognized, should be one of uo,ui,do,di");
+
+	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
+		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
+
+	VolNode vol(atm, dtoday, doptexp, accrual);
+	SpotBarrierStripPricer bsp(dtoday, dstart, dend, spot, &vol, strike, barrier, btype, ir, div, otype, mtype, hols);
+
+	double ret = 0.0;
+	if (("p" == outflag) || ("P" == outflag))
+		ret = bsp.price();
+	else if (("d" == outflag) || ("D" == outflag))
+		ret = bsp.delta();
+	else if (("g" == outflag) || ("G" == outflag))
+		ret = bsp.gamma();
+	else if (("v" == outflag) || ("V" == outflag))
+		ret = bsp.vega();
+	else if (("t" == outflag) || ("T" == outflag))
+		ret = bsp.theta();
+	else if (("z" == outflag) || ("Z" == outflag))
+		ret = 13;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t");
+
+	return ret;
+}
+
 
 int CLCalibHistBreakevenVol( std::string hostname, std::string dbname, std::string tablename, 
 									int sprdnum, int expbackdays, int freq, 
@@ -621,7 +818,8 @@ double CLFXEuroOptPricer(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta, 
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -641,7 +839,7 @@ double CLFXEuroOptPricer(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXBlackPricer fbp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
 	double ret;
 	if (( "p" == outflag ) || ( "P" == outflag ))
@@ -685,7 +883,8 @@ MyArray CLFXEuroOptRisks(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -705,7 +904,7 @@ MyArray CLFXEuroOptRisks(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXBlackPricer fbp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
 	MyArray ret;
 	if (( "v" == outflag ) || ( "V" == outflag ))
@@ -735,7 +934,8 @@ double CLFXEuroStripPricer(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -755,7 +955,7 @@ double CLFXEuroStripPricer(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXBlackStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
 	double ret;
 	if (( "p" == outflag ) || ( "P" == outflag ))
@@ -796,7 +996,8 @@ MyArray CLFXEuroStripRisks(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -816,7 +1017,7 @@ MyArray CLFXEuroStripRisks(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXBlackStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
 	MyArray ret;
 	if (( "v" == outflag ) || ( "V" == outflag ))
@@ -843,7 +1044,8 @@ double CLFXBinOptPricer(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -863,7 +1065,7 @@ double CLFXBinOptPricer(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 		
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXDigitalPricer fdp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
 	double ret;
 	if (( "p" == outflag ) || ( "P" == outflag ))
@@ -903,7 +1105,8 @@ MyArray CLFXBinOptRisks(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday > dexp )
 		THROW_XLW("the expiry date has passed already");
@@ -923,7 +1126,7 @@ MyArray CLFXBinOptRisks(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 		
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXDigitalPricer fdp(dtoday, dexp, fwd, &vol, strike, ir, otype, fxFwdTenors, fxFwds);
 	MyArray ret;
 	if (( "v" == outflag ) || ( "V" == outflag ))
@@ -953,7 +1156,8 @@ double CLFXBinStripPricer(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -973,7 +1177,7 @@ double CLFXBinStripPricer(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXBinStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
 	double ret;
 	if (( "p" == outflag ) || ( "P" == outflag ))
@@ -1014,7 +1218,8 @@ MyArray CLFXBinStripRisks(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta)
+					const double beta,
+					const std::string accrual)
 {
 	if (dtoday >= dend )
 		THROW_XLW("the expiry date has passed already");
@@ -1034,7 +1239,7 @@ MyArray CLFXBinStripRisks(const double dtoday,
 	if ( (fxFwdTenors.size()!=fxFwds.size()) || (fxVolTenors.size()!=fxVols.size()) )
 		THROW_XLW("FX tenor or fwd or vol inputs are not same size");
 
-	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, fxVolTenors, fxVols, corr);
+	FXSamuelVolNode vol(dtoday, doptexp, atm, alpha, beta, accrual, fxVolTenors, fxVols, corr);
 	FXBinStripPricer fbp(dtoday, dstart, dend, fwd, &vol, strike, ir, otype, hols, fxFwdTenors, fxFwds);
 	MyArray ret;
 	if (( "v" == outflag ) || ( "V" == outflag ))

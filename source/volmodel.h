@@ -2,7 +2,9 @@
 #define VOLMODEL_H
 #include <vector>
 #include <cmath>
+#include <string>
 #include "interpolator.h"
+#include "math_utils.h"
 #include "normdist.h"
 #include "ci.h"
 
@@ -33,14 +35,19 @@ public:
 	double atmVol_() { return _atmVol; } 
 	double dtoday_() { return _dtoday; }
 	double dexp_() { return _dexp; }
-	double expiry_() { return (_dexp - _dtoday)/365.0; }
+	std::string accrual_() { return _accrual; }
+	double expiry_();
+	double time2expiry_(const double dtoday, const double dexp);
+	double nextwkday_(const double dtoday);
 
-	VolNode():_atmVol(0.0), _dexp(0.0), _dtoday(0.0) {}
-	VolNode(double vol, double dtoday, double dexp):_atmVol(vol), _dtoday(dtoday), _dexp(dexp) {}
+	VolNode() :_atmVol(0.0), _dexp(0.0), _dtoday(0.0), _accrual("act365"){}
+	VolNode(double vol, double dtoday, double dexp, 
+		std::string accrual = "act365") :_atmVol(vol), _dtoday(dtoday), _dexp(dexp), _accrual(accrual){}
 private:
 	double _atmVol;
 	double _dtoday;
 	double _dexp;
+	std::string _accrual;
 };
 
 class SamuelVolNode: public VolNode {
@@ -49,7 +56,8 @@ public:
 				  const double dexp, 
 				  const double atm,
 				  const double alpha,
-				  const double beta):VolNode(atm, dtoday, dexp), _alpha(alpha), _beta(beta) {}
+				  const double beta,
+				  const std::string accrual = "act365") :VolNode(atm, dtoday, dexp, accrual), _alpha(alpha), _beta(beta) {}
 	double alpha_() { return _alpha; }
 	double beta_() { return _beta; }
 	void setAlpha( double alpha ) { _alpha = alpha; }
@@ -83,9 +91,10 @@ private:
 class FXSamuelVolNode: public SamuelVolNode, public FXVol {
 public:
 	FXSamuelVolNode::FXSamuelVolNode(const double dtoday, const double dexp, 
-				const double atm, const double alpha, const double beta, 
-				DblVector fxTenors, DblVector fxVols, const double corr): 
-				SamuelVolNode(dtoday, dexp, atm, alpha, beta), 
+				const double atm, const double alpha, const double beta,
+				const std::string accrual,
+				DblVector fxTenors, DblVector fxVols, const double corr) :
+				SamuelVolNode(dtoday, dexp, atm, alpha, beta, accrual),
 				FXVol(dtoday, fxTenors, fxVols), _corr(corr) {}
 	double corr_() { return _corr; }
 	void setToday( double dtoday );
@@ -104,12 +113,13 @@ public:
 				  const double v75, 
 				  const double v25, 
 				  const double v10,
-				  const double omega);
+				  const std::string accrual = "act365");
 	//Delta5VolNode( const Delta5VolNode & other);
 	~Delta5VolNode() { delete _interp; }
 
 	void initialize();
 	virtual void setAtm( double atm );
+	void setFwd( double fwd ) { _fwd = fwd; }
 	void setD10Vol( double d10Vol ) { _d10Vol = d10Vol; }
 	void setD25Vol( double d25Vol ) { _d25Vol = d25Vol; }
 	void setD75Vol( double d75Vol ) { _d75Vol = d75Vol; }
@@ -147,7 +157,7 @@ public:
 				  const double v10,
 				  const double alpha,
 				  const double beta,
-				  const double omega);
+				  const std::string accrual = "act365");
 	double alpha_() { return _alpha; }
 	double beta_() { return _beta; }
 	void setAlpha( double alpha ) { _alpha = alpha; }

@@ -42,11 +42,12 @@ double mxlw_CLSmileVolbyStrike
 		double v75,
 		double v25,
 		double v10,
-		double K
+		double K,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLSmileVolbyStrike(dtoday,dexp,fwd,atm,v90,v75,v25,v10,K );
+			return CLSmileVolbyStrike(dtoday,dexp,fwd,atm,v90,v75,v25,v10,K,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -62,11 +63,12 @@ double mxlw_CLSmileVolbyDelta
 		double v75,
 		double v25,
 		double v10,
-		double delta
+		double delta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLSmileVolbyDelta(dtoday,dexp,fwd,atm,v90,v75,v25,v10,delta );
+			return CLSmileVolbyDelta(dtoday,dexp,fwd,atm,v90,v75,v25,v10,delta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -88,17 +90,18 @@ double mxlw_CLSmileEuroOptPricer
 		std::string otype,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLSmileEuroOptPricer(dtoday,dexp,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,alpha,beta );
+			return CLSmileEuroOptPricer(dtoday,dexp,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
 ////////////////////////////////////
 
-double mxlw_CLEuroOptStripPricer
+double mxlw_CLEuroOptStrip
 		(
 		double dtoday,
 		double dstart,
@@ -116,11 +119,12 @@ double mxlw_CLEuroOptStripPricer
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLEuroOptStripPricer(dtoday,dstart,dend,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,hols,alpha,beta );
+			return CLEuroOptStrip(dtoday,dstart,dend,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,hols,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -142,17 +146,18 @@ double mxlw_CLSmileBinOptPricer
 		std::string otype,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLSmileBinOptPricer(dtoday,dexp,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,alpha,beta );
+			return CLSmileBinOptPricer(dtoday,dexp,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
 ////////////////////////////////////
 
-double mxlw_CLDigitalStripPricer
+double mxlw_CLDigitalStrip
 		(
 		double dtoday,
 		double dstart,
@@ -170,11 +175,12 @@ double mxlw_CLDigitalStripPricer
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLDigitalStripPricer(dtoday,dstart,dend,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,hols,alpha,beta );
+			return CLDigitalStrip(dtoday,dstart,dend,fwd,strike,atm,v90,v75,v25,v10,doptexp,ir,otype,outflag,hols,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -189,11 +195,12 @@ double mxlw_CLSprdOptPricer
 		double atm,
 		double ir,
 		std::string otype,
-		std::string outflag
+		std::string outflag,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLSprdOptPricer(dtoday,dexp,fwd,strike,atm,ir,otype,outflag );
+			return CLSprdOptPricer(dtoday,dexp,fwd,strike,atm,ir,otype,outflag,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -253,7 +260,7 @@ double mxlw_CLBlackDelta
 
 ////////////////////////////////////
 
-double mxlw_CLBarrierOptFlatVolPricer
+double mxlw_CLBarrierFlatVolPricer
 		(
 		double dtoday,
 		double dexp,
@@ -268,17 +275,18 @@ double mxlw_CLBarrierOptFlatVolPricer
 		std::string mtype,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLBarrierOptFlatVolPricer(dtoday,dexp,fwd,strike,barrier,btype,atm,doptexp,ir,otype,mtype,outflag,alpha,beta );
+			return CLBarrierFlatVolPricer(dtoday,dexp,fwd,strike,barrier,btype,atm,doptexp,ir,otype,mtype,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
 ////////////////////////////////////
 
-double mxlw_CLBarrierOptSmilePricer
+double mxlw_CLBarrierSmilePricer
 		(
 		double dtoday,
 		double dexp,
@@ -297,17 +305,18 @@ double mxlw_CLBarrierOptSmilePricer
 		std::string mtype,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLBarrierOptSmilePricer(dtoday,dexp,fwd,strike,barrier,btype,atm,v90,v75,v25,v10,doptexp,ir,otype,mtype,outflag,alpha,beta );
+			return CLBarrierSmilePricer(dtoday,dexp,fwd,strike,barrier,btype,atm,v90,v75,v25,v10,doptexp,ir,otype,mtype,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
 ////////////////////////////////////
 
-double mxlw_CLBarrierStripPricer
+double mxlw_CLBarrierStrip
 		(
 		double dtoday,
 		double dstart,
@@ -324,11 +333,96 @@ double mxlw_CLBarrierStripPricer
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLBarrierStripPricer(dtoday,dstart,dend,fwd,strike,barrier,btype,atm,doptexp,ir,otype,mtype,outflag,hols,alpha,beta );
+			return CLBarrierStrip(dtoday,dstart,dend,fwd,strike,barrier,btype,atm,doptexp,ir,otype,mtype,outflag,hols,alpha,beta,accrual );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+double mxlw_CLBarrierSmileStrip
+		(
+		double dtoday,
+		double dstart,
+		double dend,
+		double fwd,
+		double strike,
+		double barrier,
+		std::string btype,
+		double atm,
+		double v90,
+		double v75,
+		double v25,
+		double v10,
+		double doptexp,
+		double ir,
+		std::string otype,
+		std::string mtype,
+		std::string outflag,
+		MyArray hols,
+		double alpha,
+		double beta,
+		std::string accrual
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLBarrierSmileStrip(dtoday,dstart,dend,fwd,strike,barrier,btype,atm,v90,v75,v25,v10,doptexp,ir,otype,mtype,outflag,hols,alpha,beta,accrual );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+double mxlw_CLSpotBarrierPricer
+		(
+		double dtoday,
+		double dexp,
+		double spot,
+		double strike,
+		double barrier,
+		std::string btype,
+		double atm,
+		double doptexp,
+		double ir,
+		double div,
+		std::string otype,
+		std::string mtype,
+		std::string outflag,
+		std::string accrual
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLSpotBarrierPricer(dtoday,dexp,spot,strike,barrier,btype,atm,doptexp,ir,div,otype,mtype,outflag,accrual );
+		MANAGED_EXECL_END
+		}
+
+////////////////////////////////////
+
+double mxlw_CLSpotBarrierStrip
+		(
+		double dtoday,
+		double dstart,
+		double dend,
+		double spot,
+		double strike,
+		double barrier,
+		std::string btype,
+		double atm,
+		double doptexp,
+		double ir,
+		double div,
+		std::string otype,
+		std::string mtype,
+		std::string outflag,
+		MyArray hols,
+		std::string accrual
+		)
+		{
+		MANAGED_EXECL_BEGIN
+			return CLSpotBarrierStrip(dtoday,dstart,dend,spot,strike,barrier,btype,atm,doptexp,ir,div,otype,mtype,outflag,hols,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -370,11 +464,12 @@ double mxlw_CLFXEuroOptPricer
 		double corr,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXEuroOptPricer(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+			return CLFXEuroOptPricer(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -397,11 +492,12 @@ MyArray mxlw_CLFXEuroOptRisks
 		double corr,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXEuroOptRisks(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+			return CLFXEuroOptRisks(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -426,11 +522,12 @@ double mxlw_CLFXEuroStripPricer
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXEuroStripPricer(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+			return CLFXEuroStripPricer(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -455,11 +552,12 @@ MyArray mxlw_CLFXEuroStripRisks
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXEuroStripRisks(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+			return CLFXEuroStripRisks(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -482,11 +580,12 @@ double mxlw_CLFXBinOptPricer
 		double corr,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXBinOptPricer(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+			return CLFXBinOptPricer(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -509,11 +608,12 @@ MyArray mxlw_CLFXBinOptRisks
 		double corr,
 		std::string outflag,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXBinOptRisks(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta );
+			return CLFXBinOptRisks(dtoday,dexp,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -538,11 +638,12 @@ double mxlw_CLFXBinStripPricer
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXBinStripPricer(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+			return CLFXBinStripPricer(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 
@@ -567,11 +668,12 @@ MyArray mxlw_CLFXBinStripRisks
 		std::string outflag,
 		MyArray hols,
 		double alpha,
-		double beta
+		double beta,
+		std::string accrual
 		)
 		{
 		MANAGED_EXECL_BEGIN
-			return CLFXBinStripRisks(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta );
+			return CLFXBinStripRisks(dtoday,dstart,dend,fwd,strike,atm,doptexp,ir,otype,fxFwdTenors,fxFwds,fxVolTenors,fxVols,corr,outflag,hols,alpha,beta,accrual );
 		MANAGED_EXECL_END
 		}
 

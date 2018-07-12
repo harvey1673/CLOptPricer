@@ -7,6 +7,7 @@
 #include <xlw/ArgList.h>
 #include "volmodel.h"
 #include "pricer.h"
+#include "spotpricer.h"
 #include "fxpricer.h"
 #include "math_utils.h"
 #include "timeseries.h"
@@ -31,7 +32,8 @@ double CLSmileVolbyStrike(const double dtoday,
 					const double v75, 
 					const double v25, 
 					const double v10,
-					const double K);
+					const double K,
+					const std::string accrual);
 
 double CLSmileVolbyDelta(const double dtoday,
 					const double dexp,
@@ -41,7 +43,8 @@ double CLSmileVolbyDelta(const double dtoday,
 					const double v75, 
 					const double v25, 
 					const double v10,
-					const double delta);
+					const double delta,
+					const std::string accrual);
 
 double CLSmileEuroOptPricer(const double dtoday,
 					const double dexp,
@@ -57,9 +60,10 @@ double CLSmileEuroOptPricer(const double dtoday,
 					const std::string otype,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 
-double CLEuroOptStripPricer(const double dtoday,
+double CLEuroOptStrip(const double dtoday,
 					const double dstart,
 					const double dend,
 					const double fwd,
@@ -75,7 +79,8 @@ double CLEuroOptStripPricer(const double dtoday,
 					const std::string outflag,
 					const MyArray &hols,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 
 double CLSmileBinOptPricer(const double dtoday,
 					const double dexp,
@@ -91,9 +96,10 @@ double CLSmileBinOptPricer(const double dtoday,
 					const std::string otype,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 
-double CLDigitalStripPricer(const double dtoday,
+double CLDigitalStrip(const double dtoday,
 					const double dstart,
 					const double dend,
 					const double fwd,
@@ -109,7 +115,8 @@ double CLDigitalStripPricer(const double dtoday,
 					const std::string outflag,
 					const MyArray &hols,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 
 double CLSprdOptPricer(const double dtoday,
 					const double dexp,
@@ -118,7 +125,8 @@ double CLSprdOptPricer(const double dtoday,
 					const double atm, 
 					const double ir,
 					const std::string otype,
-					const std::string outflag);
+					const std::string outflag,
+					const std::string accrual);
 
 double CLBlackImpliedVol(const double dtoday, 
 					const double dexp, 
@@ -144,7 +152,7 @@ double CLBlackDelta(const double dtoday,
 					const double ir, 
 					const std::string otype);
 
-double CLBarrierOptFlatVolPricer(const double dtoday,
+double CLBarrierFlatVolPricer(const double dtoday,
 					const double dexp,
 					const double fwd,
 					const double strike,
@@ -157,9 +165,10 @@ double CLBarrierOptFlatVolPricer(const double dtoday,
 					const std::string mtype,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 
-double CLBarrierOptSmilePricer(const double dtoday,
+double CLBarrierSmilePricer(const double dtoday,
 					const double dexp,
 					const double fwd,
 					const double strike,
@@ -176,9 +185,10 @@ double CLBarrierOptSmilePricer(const double dtoday,
 					const std::string mtype,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 
-double CLBarrierStripPricer(const double dtoday,
+double CLBarrierStrip(const double dtoday,
 					const double dstart,
 					const double dend,
 					const double fwd,
@@ -193,7 +203,62 @@ double CLBarrierStripPricer(const double dtoday,
 					const std::string outflag,
 					const MyArray &hols,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
+
+double CLBarrierSmileStrip(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double v90,
+					const double v75,
+					const double v25,
+					const double v10,
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const MyArray &hols,
+					const double alpha,
+					const double beta,
+					const std::string accrual);
+
+double CLSpotBarrierPricer(const double dtoday,
+					const double dexp,
+					const double spot,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double doptexp,					
+					const double ir,
+					const double div,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const std::string accrual);
+
+double CLSpotBarrierStrip(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double spot,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double doptexp,					
+					const double ir,
+					const double div,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const MyArray &hols,
+					const std::string accrual);
 
 int CLCalibHistBreakevenVol(std::string hostname, 
 							std::string dbname, 
@@ -203,6 +268,7 @@ int CLCalibHistBreakevenVol(std::string hostname,
 							int freq,
 							const MyArray &contDates,
 							std::string out_table);
+
 double CLFXEuroOptPricer(const double dtoday,
 					const double dexp,
 					const double fwd,
@@ -218,7 +284,9 @@ double CLFXEuroOptPricer(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
+
 MyArray CLFXEuroOptRisks(const double dtoday,
 					const double dexp,
 					const double fwd,
@@ -234,7 +302,9 @@ MyArray CLFXEuroOptRisks(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
+
 double CLFXEuroStripPricer(const double dtoday,
 					const double dstart,
 					const double dend,
@@ -252,7 +322,9 @@ double CLFXEuroStripPricer(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
+
 MyArray CLFXEuroStripRisks(const double dtoday,
 					const double dstart,
 					const double dend,
@@ -270,7 +342,9 @@ MyArray CLFXEuroStripRisks(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta);					
+					const double beta,
+					const std::string accrual);
+
 double CLFXBinOptPricer(const double dtoday,
 					const double dexp,
 					const double fwd,
@@ -286,7 +360,9 @@ double CLFXBinOptPricer(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta);	
+					const double beta,
+					const std::string accrual);
+
 MyArray CLFXBinOptRisks(const double dtoday,
 					const double dexp,
 					const double fwd,
@@ -302,7 +378,9 @@ MyArray CLFXBinOptRisks(const double dtoday,
 					const double corr,
 					const std::string outflag,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
+
 double CLFXBinStripPricer(const double dtoday,
 					const double dstart,
 					const double dend,
@@ -320,7 +398,9 @@ double CLFXBinStripPricer(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta);	
+					const double beta,
+					const std::string accrual);
+
 MyArray CLFXBinStripRisks(const double dtoday,
 					const double dstart,
 					const double dend,
@@ -338,5 +418,6 @@ MyArray CLFXBinStripRisks(const double dtoday,
 					const std::string outflag,
 					MyArray &hols,
 					const double alpha,
-					const double beta);
+					const double beta,
+					const std::string accrual);
 #endif

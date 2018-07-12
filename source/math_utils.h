@@ -1,6 +1,5 @@
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
-
 #include <stdexcept>
 #include <limits>
 #include <sstream>
@@ -40,6 +39,17 @@ typedef std::vector <BoolVector>          BoolMatrix2D;
 typedef std::vector<std::string>          StringVector;
 typedef std::vector<StringVector>         StringMatrix2D;
 
+const int CHN_Holidays[] = {41640, 41641, 41642, 41670, 41673, 41674, 41675, 41676, \
+							41736, 41760, 41761, 41792, 41890, 41913, 41914, 41915, \
+							41918, 41919, 42005, 42006, 42053, 42054, 42055, 42058, \
+							42059, 42100, 42125, 42177, 42275, 42278, 42279, 42282, \
+							42283, 42284, 42370, 42408, 42409, 42410, 42411, 42412, \
+							42464, 42492, 42530, 42531, 42628, 42629, 42646, 42647, \
+							42648, 42649, 42650, 42737, 42762, 42765, 42766, 42767, 42768, \
+							42828, 42829, 42856, 42884, 42885, 43010, 43011, 43012, 43013, \
+							43014, 43101, 43146, 43147, 43150, 43151, 43152, 43195, 43196, 43220, 43221, \
+							43269, 43367, 43374, 43375, 43376, 43377, 43378, 0 };
+
 inline size_t xl2weekday(const double xldate)
 {
 	return ((int(xldate) - 1) % 7);
@@ -64,6 +74,78 @@ inline DblVector businessDays(const double startD, const double endD, DblVector 
 		if (isweekday(d) && (std::find(hols.begin(), hols.end(), double(d))==hols.end()))
 			res.push_back( double(d) );
 	
+	return res;
+}
+
+inline int NumBusDays(const double startD, const double endD, const int hols[])
+{
+	int sdate = int(startD);
+	int edate = int(endD);
+	//#if (sdate == edate) return endD - startD;
+	int nlen = 0;
+	while (hols[nlen] > 0) nlen++;
+	int res = 0;
+	int i = 0;
+	for (int d = sdate; d <= edate; ++d) {
+		while ((i<nlen - 1) && (hols[i]<d)) i++;
+		if (isweekday(d) && (d != hols[i]))
+			res++;
+	}
+	return res;
+}
+
+inline double NextBusDay(const double startD, const int hols[])
+{
+	int sdate = int(startD);
+	int nlen = 0;
+	while (hols[nlen] > 0) nlen++;
+	double res = startD;
+	int i = 0;
+	do
+	{
+		res = res + 1;
+		while ((i<nlen - 1) && (hols[i]<int(res))) i++;
+	} while ((!isweekday(res)) || (int(res) == hols[i]));
+	return res;
+}
+
+inline double GetDayFraction(const double dExp, std::string accrual)
+{
+	double res = 0.0;
+	if (accrual == "act365")
+		res = dExp - int(dExp);
+	else if (accrual == "SSE" )
+	{
+		double frac = dExp - int(dExp);
+		if (frac < 9.5 / 24.0)
+			res = 0.0;
+		else if (frac < 11.5 / 24.0)
+			res = (frac - 9.5 / 24.0)*6.0;
+		else if (frac < 13.0 / 24.0)
+			res = 0.5;
+		else if (frac < 15.0 / 24.0)
+			res = 0.5 + (frac - 13.0 / 24.0)*6.0;
+		else
+			res = 1.0;
+	}
+	else if (accrual == "COM")
+	{
+		double frac = dExp - int(dExp);
+		if (frac < 9.0 / 24.0)
+			res = 0.0;
+		else if (frac < 10.25 / 24.0)
+			res = (frac - 9.0 / 24.0)*24.0 / 3.75;
+		else if (frac < 10.5 / 24.0)
+			res = 1.25 / 3.75;
+		else if (frac < 11.5 / 24.0)
+			res = 1.25 / 3.75 + (frac - 10.5 / 24.0)*24.0 / 3.75;
+		else if (frac < 13.5 / 24.0)
+			res = 2.25 / 3.75;
+		else if (frac < 15.0 / 24.0)
+			res = 2.25 / 3.75 + (frac - 13.5 / 24.0)*24.0 / 3.75;
+		else
+			res = 1.0;
+	}
 	return res;
 }
 

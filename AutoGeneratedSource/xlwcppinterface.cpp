@@ -110,7 +110,8 @@ mxlw_CLSmileVolbyStrikeArgs[]=
 { "v75","too lazy to comment this one ","B"},
 { "v25","too lazy to comment this one ","B"},
 { "v10","too lazy to comment this one ","B"},
-{ "K","too lazy to comment this one ","B"}
+{ "K","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLSmileVolbyStrike("xlmxlw_CLSmileVolbyStrike",
@@ -118,7 +119,7 @@ registermxlw_CLSmileVolbyStrike("xlmxlw_CLSmileVolbyStrike",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLSmileVolbyStrikeArgs,
-9
+10
 ,false
 ,false
 ,""
@@ -143,7 +144,8 @@ double v90,
 double v75,
 double v25,
 double v10,
-double K)
+double K,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -159,6 +161,11 @@ EXCEL_BEGIN;
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLSmileVolbyStrike(
 		dtoday,
@@ -169,7 +176,8 @@ double result(
 		v75,
 		v25,
 		v10,
-		K)
+		K,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -193,7 +201,8 @@ mxlw_CLSmileVolbyDeltaArgs[]=
 { "v75","too lazy to comment this one ","B"},
 { "v25","too lazy to comment this one ","B"},
 { "v10","too lazy to comment this one ","B"},
-{ "delta","too lazy to comment this one ","B"}
+{ "delta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLSmileVolbyDelta("xlmxlw_CLSmileVolbyDelta",
@@ -201,7 +210,7 @@ registermxlw_CLSmileVolbyDelta("xlmxlw_CLSmileVolbyDelta",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLSmileVolbyDeltaArgs,
-9
+10
 ,false
 ,false
 ,""
@@ -226,7 +235,8 @@ double v90,
 double v75,
 double v25,
 double v10,
-double delta)
+double delta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -242,6 +252,11 @@ EXCEL_BEGIN;
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLSmileVolbyDelta(
 		dtoday,
@@ -252,7 +267,8 @@ double result(
 		v75,
 		v25,
 		v10,
-		delta)
+		delta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -282,7 +298,8 @@ mxlw_CLSmileEuroOptPricerArgs[]=
 { "otype","too lazy to comment this one ","XLF_OPER"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLSmileEuroOptPricer("xlmxlw_CLSmileEuroOptPricer",
@@ -290,7 +307,7 @@ registermxlw_CLSmileEuroOptPricer("xlmxlw_CLSmileEuroOptPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLSmileEuroOptPricerArgs,
-15
+16
 ,false
 ,false
 ,""
@@ -321,7 +338,8 @@ double ir,
 LPXLFOPER otypea,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -351,6 +369,11 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLSmileEuroOptPricer(
 		dtoday,
@@ -367,7 +390,8 @@ double result(
 		otype,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -381,7 +405,7 @@ EXCEL_END
 namespace
 {
 XLRegistration::Arg
-mxlw_CLEuroOptStripPricerArgs[]=
+mxlw_CLEuroOptStripArgs[]=
 {
 { "dtoday","too lazy to comment this one ","B"},
 { "dstart","too lazy to comment this one ","B"},
@@ -399,15 +423,16 @@ mxlw_CLEuroOptStripPricerArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
-registermxlw_CLEuroOptStripPricer("xlmxlw_CLEuroOptStripPricer",
-"CLEuroOptStripPricer",
+registermxlw_CLEuroOptStrip("xlmxlw_CLEuroOptStrip",
+"CLEuroOptStrip",
 "too lazy to comment this function ",
 LibraryName,
-mxlw_CLEuroOptStripPricerArgs,
-17
+mxlw_CLEuroOptStripArgs,
+18
 ,false
 ,false
 ,""
@@ -423,7 +448,7 @@ mxlw_CLEuroOptStripPricerArgs,
 extern "C"
 {
 LPXLFOPER EXCEL_EXPORT
-xlmxlw_CLEuroOptStripPricer(
+xlmxlw_CLEuroOptStrip(
 double dtoday,
 double dstart,
 double dend,
@@ -440,7 +465,8 @@ LPXLFOPER otypea,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -476,8 +502,13 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
-	mxlw_CLEuroOptStripPricer(
+	mxlw_CLEuroOptStrip(
 		dtoday,
 		dstart,
 		dend,
@@ -494,7 +525,8 @@ double result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -524,7 +556,8 @@ mxlw_CLSmileBinOptPricerArgs[]=
 { "otype","too lazy to comment this one ","XLF_OPER"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLSmileBinOptPricer("xlmxlw_CLSmileBinOptPricer",
@@ -532,7 +565,7 @@ registermxlw_CLSmileBinOptPricer("xlmxlw_CLSmileBinOptPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLSmileBinOptPricerArgs,
-15
+16
 ,false
 ,false
 ,""
@@ -563,7 +596,8 @@ double ir,
 LPXLFOPER otypea,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -593,6 +627,11 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLSmileBinOptPricer(
 		dtoday,
@@ -609,7 +648,8 @@ double result(
 		otype,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -623,7 +663,7 @@ EXCEL_END
 namespace
 {
 XLRegistration::Arg
-mxlw_CLDigitalStripPricerArgs[]=
+mxlw_CLDigitalStripArgs[]=
 {
 { "dtoday","too lazy to comment this one ","B"},
 { "dstart","too lazy to comment this one ","B"},
@@ -641,15 +681,16 @@ mxlw_CLDigitalStripPricerArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
-registermxlw_CLDigitalStripPricer("xlmxlw_CLDigitalStripPricer",
-"CLDigitalStripPricer",
+registermxlw_CLDigitalStrip("xlmxlw_CLDigitalStrip",
+"CLDigitalStrip",
 "too lazy to comment this function ",
 LibraryName,
-mxlw_CLDigitalStripPricerArgs,
-17
+mxlw_CLDigitalStripArgs,
+18
 ,false
 ,false
 ,""
@@ -665,7 +706,7 @@ mxlw_CLDigitalStripPricerArgs,
 extern "C"
 {
 LPXLFOPER EXCEL_EXPORT
-xlmxlw_CLDigitalStripPricer(
+xlmxlw_CLDigitalStrip(
 double dtoday,
 double dstart,
 double dend,
@@ -682,7 +723,8 @@ LPXLFOPER otypea,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -718,8 +760,13 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
-	mxlw_CLDigitalStripPricer(
+	mxlw_CLDigitalStrip(
 		dtoday,
 		dstart,
 		dend,
@@ -736,7 +783,8 @@ double result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -759,7 +807,8 @@ mxlw_CLSprdOptPricerArgs[]=
 { "atm","too lazy to comment this one ","B"},
 { "ir","too lazy to comment this one ","B"},
 { "otype","too lazy to comment this one ","XLF_OPER"},
-{ "outflag","too lazy to comment this one ","XLF_OPER"}
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLSprdOptPricer("xlmxlw_CLSprdOptPricer",
@@ -767,7 +816,7 @@ registermxlw_CLSprdOptPricer("xlmxlw_CLSprdOptPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLSprdOptPricerArgs,
-8
+9
 ,false
 ,false
 ,""
@@ -791,7 +840,8 @@ double strike,
 double atm,
 double ir,
 LPXLFOPER otypea,
-LPXLFOPER outflaga)
+LPXLFOPER outflaga,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -814,6 +864,11 @@ XlfOper outflagb(
 std::string outflag(
 	outflagb.AsString("outflag"));
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLSprdOptPricer(
 		dtoday,
@@ -823,7 +878,8 @@ double result(
 		atm,
 		ir,
 		otype,
-		outflag)
+		outflag,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -1074,7 +1130,7 @@ EXCEL_END
 namespace
 {
 XLRegistration::Arg
-mxlw_CLBarrierOptFlatVolPricerArgs[]=
+mxlw_CLBarrierFlatVolPricerArgs[]=
 {
 { "dtoday","too lazy to comment this one ","B"},
 { "dexp","too lazy to comment this one ","B"},
@@ -1089,15 +1145,16 @@ mxlw_CLBarrierOptFlatVolPricerArgs[]=
 { "mtype","too lazy to comment this one ","XLF_OPER"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
-registermxlw_CLBarrierOptFlatVolPricer("xlmxlw_CLBarrierOptFlatVolPricer",
-"CLBarrierOptFlatVolPricer",
+registermxlw_CLBarrierFlatVolPricer("xlmxlw_CLBarrierFlatVolPricer",
+"CLBarrierFlatVolPricer",
 "too lazy to comment this function ",
 LibraryName,
-mxlw_CLBarrierOptFlatVolPricerArgs,
-14
+mxlw_CLBarrierFlatVolPricerArgs,
+15
 ,false
 ,false
 ,""
@@ -1113,7 +1170,7 @@ mxlw_CLBarrierOptFlatVolPricerArgs,
 extern "C"
 {
 LPXLFOPER EXCEL_EXPORT
-xlmxlw_CLBarrierOptFlatVolPricer(
+xlmxlw_CLBarrierFlatVolPricer(
 double dtoday,
 double dexp,
 double fwd,
@@ -1127,7 +1184,8 @@ LPXLFOPER otypea,
 LPXLFOPER mtypea,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -1164,8 +1222,13 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
-	mxlw_CLBarrierOptFlatVolPricer(
+	mxlw_CLBarrierFlatVolPricer(
 		dtoday,
 		dexp,
 		fwd,
@@ -1179,7 +1242,8 @@ double result(
 		mtype,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -1193,7 +1257,7 @@ EXCEL_END
 namespace
 {
 XLRegistration::Arg
-mxlw_CLBarrierOptSmilePricerArgs[]=
+mxlw_CLBarrierSmilePricerArgs[]=
 {
 { "dtoday","too lazy to comment this one ","B"},
 { "dexp","too lazy to comment this one ","B"},
@@ -1212,15 +1276,16 @@ mxlw_CLBarrierOptSmilePricerArgs[]=
 { "mtype","too lazy to comment this one ","XLF_OPER"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
-registermxlw_CLBarrierOptSmilePricer("xlmxlw_CLBarrierOptSmilePricer",
-"CLBarrierOptSmilePricer",
+registermxlw_CLBarrierSmilePricer("xlmxlw_CLBarrierSmilePricer",
+"CLBarrierSmilePricer",
 "too lazy to comment this function ",
 LibraryName,
-mxlw_CLBarrierOptSmilePricerArgs,
-18
+mxlw_CLBarrierSmilePricerArgs,
+19
 ,false
 ,false
 ,""
@@ -1236,7 +1301,7 @@ mxlw_CLBarrierOptSmilePricerArgs,
 extern "C"
 {
 LPXLFOPER EXCEL_EXPORT
-xlmxlw_CLBarrierOptSmilePricer(
+xlmxlw_CLBarrierSmilePricer(
 double dtoday,
 double dexp,
 double fwd,
@@ -1254,7 +1319,8 @@ LPXLFOPER otypea,
 LPXLFOPER mtypea,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -1295,8 +1361,13 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
-	mxlw_CLBarrierOptSmilePricer(
+	mxlw_CLBarrierSmilePricer(
 		dtoday,
 		dexp,
 		fwd,
@@ -1314,7 +1385,8 @@ double result(
 		mtype,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -1328,7 +1400,7 @@ EXCEL_END
 namespace
 {
 XLRegistration::Arg
-mxlw_CLBarrierStripPricerArgs[]=
+mxlw_CLBarrierStripArgs[]=
 {
 { "dtoday","too lazy to comment this one ","B"},
 { "dstart","too lazy to comment this one ","B"},
@@ -1345,15 +1417,16 @@ mxlw_CLBarrierStripPricerArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
-registermxlw_CLBarrierStripPricer("xlmxlw_CLBarrierStripPricer",
-"CLBarrierStripPricer",
+registermxlw_CLBarrierStrip("xlmxlw_CLBarrierStrip",
+"CLBarrierStrip",
 "too lazy to comment this function ",
 LibraryName,
-mxlw_CLBarrierStripPricerArgs,
-16
+mxlw_CLBarrierStripArgs,
+17
 ,false
 ,false
 ,""
@@ -1369,7 +1442,7 @@ mxlw_CLBarrierStripPricerArgs,
 extern "C"
 {
 LPXLFOPER EXCEL_EXPORT
-xlmxlw_CLBarrierStripPricer(
+xlmxlw_CLBarrierStrip(
 double dtoday,
 double dstart,
 double dend,
@@ -1385,7 +1458,8 @@ LPXLFOPER mtypea,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -1428,8 +1502,13 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
-	mxlw_CLBarrierStripPricer(
+	mxlw_CLBarrierStrip(
 		dtoday,
 		dstart,
 		dend,
@@ -1445,7 +1524,421 @@ double result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLBarrierSmileStripArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dstart","too lazy to comment this one ","B"},
+{ "dend","too lazy to comment this one ","B"},
+{ "fwd","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "barrier","too lazy to comment this one ","B"},
+{ "btype","too lazy to comment this one ","XLF_OPER"},
+{ "atm","too lazy to comment this one ","B"},
+{ "v90","too lazy to comment this one ","B"},
+{ "v75","too lazy to comment this one ","B"},
+{ "v25","too lazy to comment this one ","B"},
+{ "v10","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "mtype","too lazy to comment this one ","XLF_OPER"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "hols","too lazy to comment this one ","XLF_OPER"},
+{ "alpha","too lazy to comment this one ","B"},
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLBarrierSmileStrip("xlmxlw_CLBarrierSmileStrip",
+"CLBarrierSmileStrip",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLBarrierSmileStripArgs,
+21
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLBarrierSmileStrip(
+double dtoday,
+double dstart,
+double dend,
+double fwd,
+double strike,
+double barrier,
+LPXLFOPER btypea,
+double atm,
+double v90,
+double v75,
+double v25,
+double v10,
+double doptexp,
+double ir,
+LPXLFOPER otypea,
+LPXLFOPER mtypea,
+LPXLFOPER outflaga,
+LPXLFOPER holsa,
+double alpha,
+double beta,
+LPXLFOPER accruala)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+XlfOper btypeb(
+	(btypea));
+std::string btype(
+	btypeb.AsString("btype"));
+
+
+
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper mtypeb(
+	(mtypea));
+std::string mtype(
+	mtypeb.AsString("mtype"));
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper holsb(
+	(holsa));
+MyArray hols(
+	holsb.AsArray("hols"));
+
+
+
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
+double result(
+	mxlw_CLBarrierSmileStrip(
+		dtoday,
+		dstart,
+		dend,
+		fwd,
+		strike,
+		barrier,
+		btype,
+		atm,
+		v90,
+		v75,
+		v25,
+		v10,
+		doptexp,
+		ir,
+		otype,
+		mtype,
+		outflag,
+		hols,
+		alpha,
+		beta,
+		accrual)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLSpotBarrierPricerArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dexp","too lazy to comment this one ","B"},
+{ "spot","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "barrier","too lazy to comment this one ","B"},
+{ "btype","too lazy to comment this one ","XLF_OPER"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "div","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "mtype","too lazy to comment this one ","XLF_OPER"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLSpotBarrierPricer("xlmxlw_CLSpotBarrierPricer",
+"CLSpotBarrierPricer",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLSpotBarrierPricerArgs,
+14
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLSpotBarrierPricer(
+double dtoday,
+double dexp,
+double spot,
+double strike,
+double barrier,
+LPXLFOPER btypea,
+double atm,
+double doptexp,
+double ir,
+double div,
+LPXLFOPER otypea,
+LPXLFOPER mtypea,
+LPXLFOPER outflaga,
+LPXLFOPER accruala)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+XlfOper btypeb(
+	(btypea));
+std::string btype(
+	btypeb.AsString("btype"));
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper mtypeb(
+	(mtypea));
+std::string mtype(
+	mtypeb.AsString("mtype"));
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
+double result(
+	mxlw_CLSpotBarrierPricer(
+		dtoday,
+		dexp,
+		spot,
+		strike,
+		barrier,
+		btype,
+		atm,
+		doptexp,
+		ir,
+		div,
+		otype,
+		mtype,
+		outflag,
+		accrual)
+	);
+return XlfOper(result);
+EXCEL_END
+}
+}
+
+
+
+//////////////////////////
+
+namespace
+{
+XLRegistration::Arg
+mxlw_CLSpotBarrierStripArgs[]=
+{
+{ "dtoday","too lazy to comment this one ","B"},
+{ "dstart","too lazy to comment this one ","B"},
+{ "dend","too lazy to comment this one ","B"},
+{ "spot","too lazy to comment this one ","B"},
+{ "strike","too lazy to comment this one ","B"},
+{ "barrier","too lazy to comment this one ","B"},
+{ "btype","too lazy to comment this one ","XLF_OPER"},
+{ "atm","too lazy to comment this one ","B"},
+{ "doptexp","too lazy to comment this one ","B"},
+{ "ir","too lazy to comment this one ","B"},
+{ "div","too lazy to comment this one ","B"},
+{ "otype","too lazy to comment this one ","XLF_OPER"},
+{ "mtype","too lazy to comment this one ","XLF_OPER"},
+{ "outflag","too lazy to comment this one ","XLF_OPER"},
+{ "hols","too lazy to comment this one ","XLF_OPER"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
+};
+  XLRegistration::XLFunctionRegistrationHelper
+registermxlw_CLSpotBarrierStrip("xlmxlw_CLSpotBarrierStrip",
+"CLSpotBarrierStrip",
+"too lazy to comment this function ",
+LibraryName,
+mxlw_CLSpotBarrierStripArgs,
+16
+,false
+,false
+,""
+,""
+,false
+,false
+,false
+);
+}
+
+
+
+extern "C"
+{
+LPXLFOPER EXCEL_EXPORT
+xlmxlw_CLSpotBarrierStrip(
+double dtoday,
+double dstart,
+double dend,
+double spot,
+double strike,
+double barrier,
+LPXLFOPER btypea,
+double atm,
+double doptexp,
+double ir,
+double div,
+LPXLFOPER otypea,
+LPXLFOPER mtypea,
+LPXLFOPER outflaga,
+LPXLFOPER holsa,
+LPXLFOPER accruala)
+{
+EXCEL_BEGIN;
+
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+
+
+
+
+
+XlfOper btypeb(
+	(btypea));
+std::string btype(
+	btypeb.AsString("btype"));
+
+
+
+
+
+XlfOper otypeb(
+	(otypea));
+std::string otype(
+	otypeb.AsString("otype"));
+
+XlfOper mtypeb(
+	(mtypea));
+std::string mtype(
+	mtypeb.AsString("mtype"));
+
+XlfOper outflagb(
+	(outflaga));
+std::string outflag(
+	outflagb.AsString("outflag"));
+
+XlfOper holsb(
+	(holsa));
+MyArray hols(
+	holsb.AsArray("hols"));
+
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
+double result(
+	mxlw_CLSpotBarrierStrip(
+		dtoday,
+		dstart,
+		dend,
+		spot,
+		strike,
+		barrier,
+		btype,
+		atm,
+		doptexp,
+		ir,
+		div,
+		otype,
+		mtype,
+		outflag,
+		hols,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -1581,7 +2074,8 @@ mxlw_CLFXEuroOptPricerArgs[]=
 { "corr","too lazy to comment this one ","B"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXEuroOptPricer("xlmxlw_CLFXEuroOptPricer",
@@ -1589,7 +2083,7 @@ registermxlw_CLFXEuroOptPricer("xlmxlw_CLFXEuroOptPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXEuroOptPricerArgs,
-16
+17
 ,false
 ,false
 ,""
@@ -1621,7 +2115,8 @@ LPXLFOPER fxVolsa,
 double corr,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -1668,6 +2163,11 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLFXEuroOptPricer(
 		dtoday,
@@ -1685,7 +2185,8 @@ double result(
 		corr,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -1716,7 +2217,8 @@ mxlw_CLFXEuroOptRisksArgs[]=
 { "corr","too lazy to comment this one ","B"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXEuroOptRisks("xlmxlw_CLFXEuroOptRisks",
@@ -1724,7 +2226,7 @@ registermxlw_CLFXEuroOptRisks("xlmxlw_CLFXEuroOptRisks",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXEuroOptRisksArgs,
-16
+17
 ,false
 ,false
 ,""
@@ -1756,7 +2258,8 @@ LPXLFOPER fxVolsa,
 double corr,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -1803,6 +2306,11 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 MyArray result(
 	mxlw_CLFXEuroOptRisks(
 		dtoday,
@@ -1820,7 +2328,8 @@ MyArray result(
 		corr,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -1853,7 +2362,8 @@ mxlw_CLFXEuroStripPricerArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXEuroStripPricer("xlmxlw_CLFXEuroStripPricer",
@@ -1861,7 +2371,7 @@ registermxlw_CLFXEuroStripPricer("xlmxlw_CLFXEuroStripPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXEuroStripPricerArgs,
-18
+19
 ,false
 ,false
 ,""
@@ -1895,7 +2405,8 @@ double corr,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -1948,6 +2459,11 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLFXEuroStripPricer(
 		dtoday,
@@ -1967,7 +2483,8 @@ double result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -2000,7 +2517,8 @@ mxlw_CLFXEuroStripRisksArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXEuroStripRisks("xlmxlw_CLFXEuroStripRisks",
@@ -2008,7 +2526,7 @@ registermxlw_CLFXEuroStripRisks("xlmxlw_CLFXEuroStripRisks",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXEuroStripRisksArgs,
-18
+19
 ,false
 ,false
 ,""
@@ -2042,7 +2560,8 @@ double corr,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -2095,6 +2614,11 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 MyArray result(
 	mxlw_CLFXEuroStripRisks(
 		dtoday,
@@ -2114,7 +2638,8 @@ MyArray result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -2145,7 +2670,8 @@ mxlw_CLFXBinOptPricerArgs[]=
 { "corr","too lazy to comment this one ","B"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXBinOptPricer("xlmxlw_CLFXBinOptPricer",
@@ -2153,7 +2679,7 @@ registermxlw_CLFXBinOptPricer("xlmxlw_CLFXBinOptPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXBinOptPricerArgs,
-16
+17
 ,false
 ,false
 ,""
@@ -2185,7 +2711,8 @@ LPXLFOPER fxVolsa,
 double corr,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -2232,6 +2759,11 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLFXBinOptPricer(
 		dtoday,
@@ -2249,7 +2781,8 @@ double result(
 		corr,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -2280,7 +2813,8 @@ mxlw_CLFXBinOptRisksArgs[]=
 { "corr","too lazy to comment this one ","B"},
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXBinOptRisks("xlmxlw_CLFXBinOptRisks",
@@ -2288,7 +2822,7 @@ registermxlw_CLFXBinOptRisks("xlmxlw_CLFXBinOptRisks",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXBinOptRisksArgs,
-16
+17
 ,false
 ,false
 ,""
@@ -2320,7 +2854,8 @@ LPXLFOPER fxVolsa,
 double corr,
 LPXLFOPER outflaga,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -2367,6 +2902,11 @@ std::string outflag(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 MyArray result(
 	mxlw_CLFXBinOptRisks(
 		dtoday,
@@ -2384,7 +2924,8 @@ MyArray result(
 		corr,
 		outflag,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -2417,7 +2958,8 @@ mxlw_CLFXBinStripPricerArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXBinStripPricer("xlmxlw_CLFXBinStripPricer",
@@ -2425,7 +2967,7 @@ registermxlw_CLFXBinStripPricer("xlmxlw_CLFXBinStripPricer",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXBinStripPricerArgs,
-18
+19
 ,false
 ,false
 ,""
@@ -2459,7 +3001,8 @@ double corr,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -2512,6 +3055,11 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 double result(
 	mxlw_CLFXBinStripPricer(
 		dtoday,
@@ -2531,7 +3079,8 @@ double result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END
@@ -2564,7 +3113,8 @@ mxlw_CLFXBinStripRisksArgs[]=
 { "outflag","too lazy to comment this one ","XLF_OPER"},
 { "hols","too lazy to comment this one ","XLF_OPER"},
 { "alpha","too lazy to comment this one ","B"},
-{ "beta","too lazy to comment this one ","B"}
+{ "beta","too lazy to comment this one ","B"},
+{ "accrual","too lazy to comment this one ","XLF_OPER"}
 };
   XLRegistration::XLFunctionRegistrationHelper
 registermxlw_CLFXBinStripRisks("xlmxlw_CLFXBinStripRisks",
@@ -2572,7 +3122,7 @@ registermxlw_CLFXBinStripRisks("xlmxlw_CLFXBinStripRisks",
 "too lazy to comment this function ",
 LibraryName,
 mxlw_CLFXBinStripRisksArgs,
-18
+19
 ,false
 ,false
 ,""
@@ -2606,7 +3156,8 @@ double corr,
 LPXLFOPER outflaga,
 LPXLFOPER holsa,
 double alpha,
-double beta)
+double beta,
+LPXLFOPER accruala)
 {
 EXCEL_BEGIN;
 
@@ -2659,6 +3210,11 @@ MyArray hols(
 
 
 
+XlfOper accrualb(
+	(accruala));
+std::string accrual(
+	accrualb.AsString("accrual"));
+
 MyArray result(
 	mxlw_CLFXBinStripRisks(
 		dtoday,
@@ -2678,7 +3234,8 @@ MyArray result(
 		outflag,
 		hols,
 		alpha,
-		beta)
+		beta,
+		accrual)
 	);
 return XlfOper(result);
 EXCEL_END

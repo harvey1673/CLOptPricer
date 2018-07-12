@@ -8,15 +8,16 @@ double Pricer::delta()
 	double fwd = this->fwd_();
 	double eps = this->priceTweak();
 	double ufwd = (1 + eps)*fwd;
+	double dfwd = (1 - eps)*fwd;
+	if (fwd <= 0.01) {
+		ufwd = fwd + eps;
+		dfwd = fwd - eps;
+	}
 	this->setFwd(ufwd);
 	double uprice = this->price();
-
-	double dfwd = (1 - eps)*fwd;
 	this->setFwd(dfwd);
 	double dprice = this->price();
-
 	this->setFwd(fwd);
-
 	return (uprice - dprice)/(ufwd - dfwd);
 }
 
@@ -26,16 +27,17 @@ double Pricer::gamma()
 	double price = this->price();
 	double eps = this->priceTweak();
 	double ufwd = (1 + eps)*fwd;
+	double dfwd = (1 - eps)*fwd;
+	if (fwd <= 0.01) {
+		ufwd = fwd + eps;
+		dfwd = fwd - eps;
+	}
 	this->setFwd(ufwd);
 	double uprice = this->price();
-
-	double dfwd = (1 - eps)*fwd;
 	this->setFwd(dfwd);
 	double dprice = this->price();
-
 	this->setFwd(fwd);
-
-	return (uprice + dprice - 2*price)/(eps*eps*fwd*fwd);
+	return (uprice + dprice - 2 * price) / ((ufwd - dfwd)*(ufwd - dfwd)/4.0);
 }
 
 double Pricer::vega()
@@ -66,7 +68,9 @@ double Pricer::theta()
 	if (dtoday >= dexp)
 		return 0.0;
 
-	double dnext = (dexp < dtoday+1)? dexp: dtoday+1;
+	VolNode *vol = this->vol_();
+	double dnext = vol->nextwkday_(dtoday); 
+	dnext = (dexp < dnext)? dexp: dnext;
 	this->setToday(dnext);
 	double nextprice = this->price();
 	this->setToday(dtoday);
@@ -81,11 +85,25 @@ double BlackPricer::price()
 	double dexp = this->dexp_();
 	double strike = this->strike_();
 	double strikeVol = vol->GetVolByMoneyness( std::log(strike/fwd), dexp);
-	double tExp = (dexp - dtoday)/365.0;
-	double df = std::exp(-this->irate_()*tExp);
+	double tExp = vol->time2expiry_(dtoday, dexp);
+	double df = std::exp(-this->irate_()*(dexp - dtoday)/365.0);
 	std::string PutCall = this->otype_();
 
 	return BlackPrice(fwd, strike, strikeVol, tExp,df, PutCall);
+}
+
+double AmericanFutPricer::price()
+{
+	VolNode *vol = this->vol_(); 
+	double fwd = this->fwd_();
+	double dtoday = this->dtoday_();
+	double dexp = this->dexp_();
+	double strike = this->strike_();
+	double strikeVol = vol->GetVolByMoneyness( std::log(strike/fwd), dexp);
+	double tExp = vol->time2expiry_(dtoday, dexp);
+	double df = std::exp(-this->irate_()*(dexp - dtoday)/365.0);
+	std::string PutCall = this->otype_();
+	return AmericanOptFutPrice(fwd, strike, strikeVol, tExp,df, PutCall);
 }
 
 double DigitalPricer::price()
@@ -93,14 +111,16 @@ double DigitalPricer::price()
 	VolNode *vol = this->vol_(); 
 	double fwd = this->fwd_();
 	double strike = this->strike_();	
-	double tExp = (this->dexp_() - this->dtoday_())/365;
-	double df = std::exp(-this->irate_()*tExp);
+	double dtoday = this->dtoday_();
+	double dexp = this->dexp_();
+	double tExp = vol->time2expiry_(dtoday, dexp);
+	double df = std::exp(-this->irate_()*(dexp - dtoday)/365.0);
 	std::string PutCall = this->otype_();
 
 	double lowStrike  = strike * (1 - _sprdwidth);
-	double lowVol = vol->GetVolByMoneyness( std::log(lowStrike/fwd), this->dexp_());
+	double lowVol = vol->GetVolByMoneyness( std::log(lowStrike/fwd), dexp);
 	double highStrike = strike * (1 + _sprdwidth);
-	double highVol = vol->GetVolByMoneyness( std::log(highStrike/fwd), this->dexp_());
+	double highVol = vol->GetVolByMoneyness( std::log(highStrike/fwd), dexp);
 
 	double lowPrice = BlackPrice(fwd, lowStrike, lowVol, tExp,df, PutCall);
 	double highPrice = BlackPrice(fwd, highStrike, highVol, tExp,df, PutCall);
@@ -120,9 +140,11 @@ double BachelierPricer::price()
 	VolNode *vol = this->vol_(); 
 	double fwd = this->fwd_();
 	double strike = this->strike_();
-	double strikeVol = vol->GetVolByMoneyness( std::log(strike/fwd), this->dexp_());
-	double tExp = (this->dexp_() - this->dtoday_())/365;
-	double df = std::exp(-this->irate_()*tExp);
+	double dtoday = this->dtoday_();
+	double dexp = this->dexp_();
+	double strikeVol = vol->GetVolByMoneyness( 0.0, dexp);
+	double tExp = vol->time2expiry_(dtoday, dexp);
+	double df = std::exp(-this->irate_()*(dexp - dtoday)/365.0);
 	std::string PutCall = this->otype_();
 
 	return BachelierPrice( fwd, strike, strikeVol, tExp,df, PutCall); 
@@ -256,13 +278,16 @@ double BarrierPricer::price()
 	double fwd = this->fwd_();
 	double strike = this->strike_();	
 	double barrier = this->barrier_();
-	double tExp = (this->dexp_() - this->dtoday_())/365;
-	double df = std::exp(-this->irate_()*tExp);
+	double dtoday = this->dtoday_();
+	double dexp = this->dexp_();
+	double tExp = volnode->time2expiry_(dtoday, dexp);
+	double df = std::exp(-this->irate_()*(dexp-dtoday)/365.0);
+
 	std::string otype = this->otype_();
 	std::string btype = this->btype_();
 	std::string mtype = this->mtype_();
 
-	double vol = volnode->GetVolByMoneyness( 0, this->dexp_());
+	double vol = volnode->GetVolByMoneyness( 0, dexp);
 
 	if ( mtype == "d" ) {
 		double discreteAdj = std::exp( 0.5826 * vol / std::sqrt(252.0));

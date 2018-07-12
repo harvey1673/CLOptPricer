@@ -10,6 +10,36 @@ double SamuelsonFactor(double a, double b, double t, double T, double mat)
 	return factor2/factor1;
 }
 
+double VolNode::expiry_()
+{
+	return this->time2expiry_(this->dtoday_(), this->dexp_());
+}
+
+double VolNode::time2expiry_(const double dtoday, const double dexp)
+{
+	if ( _accrual == "act365") 
+		return (dexp - dtoday)/365.0;
+	else if ((_accrual == "CHN") || (_accrual == "SSE") || (_accrual == "COM"))  {
+		double ndays = NumBusDays(dtoday, dexp, CHN_Holidays);
+		if ((ndays >= 1) && (_accrual != "CHN"))
+			ndays = ndays - GetDayFraction(dtoday, _accrual) + GetDayFraction(dexp, _accrual) - 1;
+		return ndays/245.0;
+	}
+	else {
+		return (dexp - dtoday) / 365.0;
+	}
+}
+
+double VolNode::nextwkday_(const double dtoday)
+{
+	if ( _accrual == "act365") 
+		return dtoday + 2;
+	else if (_accrual == "CHN")
+		return NextBusDay(dtoday, CHN_Holidays);
+	else 
+		return dtoday + 1;
+}
+
 double SamuelVolNode::GetVolByMoneyness(const double ratio, const double dmat)
 {	
 	double vol = this->atmVol_();
@@ -103,14 +133,14 @@ Delta5VolNode::Delta5VolNode(const double dtoday,
 					const double v75, 
 					const double v25, 
 					const double v10,
-					const double omega = 0.75):
-					VolNode(atm, dtoday, dexp),
+					const std::string accrual):
+					VolNode(atm, dtoday, dexp, accrual),
 					_fwd(fwd),
 					_d90Vol(v90),
 					_d75Vol(v75),
 					_d25Vol(v25),
 					_d10Vol(v10),
-					_omega(omega) 
+					_omega(0.75) 
 {
 	initialize();
 }
@@ -155,8 +185,8 @@ SamuelDelta5VolNode::SamuelDelta5VolNode(const double dtoday,
 				const double v10,
 				const double alpha,
 				const double beta,
-				const double omega=0.75):
-				Delta5VolNode(dtoday, dexp, fwd, atm, v90, v75, v25, v10, omega),
+				const std::string accrual) :
+				Delta5VolNode(dtoday, dexp, fwd, atm, v90, v75, v25, v10, accrual),
 				_alpha(alpha), _beta(beta){}
 
 double SamuelDelta5VolNode::GetVolByMoneyness(const double ratio, const double dmat)
