@@ -13,6 +13,7 @@
 #include "../CLOptPricer/math_utils.h"
 #include "../CLOptPricer/timeseries.h"
 #include "../CLOptPricer/barriersmile.h"
+#include "../CLOptPricer/spotpricer.h"
 
 using namespace xlw;
 
@@ -205,3 +206,58 @@ DLL_API double CLBarrierStripPricer(const double dtoday,
 					const double alpha,
 					const double beta,
 					const std::string accrual = "act365");
+
+DLL_API double CLBarrierSmileStripPricer(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double v90,
+					const double v75,
+					const double v25,
+					const double v10,
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const MyArray& hols,
+					const double alpha,
+					const double beta,
+					const std::string accrual = "act365");
+
+DLL_API double CLSpotBarrierPricer(const double dtoday,
+					const double dexp,
+					const double spot,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double doptexp,
+					const double ir,
+					const double div,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const std::string accrual = "act365");
+
+DLL_API double CLSpotBarrierStripPricer(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double spot,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double doptexp,
+					const double ir,
+					const double div,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const MyArray& hols,
+					const std::string accrual = "act365");
+

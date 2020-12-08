@@ -590,3 +590,188 @@ double CLBarrierStripPricer(const double dtoday,
 	return ret;
 }
 
+double CLBarrierSmileStrip(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double fwd,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double v90,
+					const double v75,
+					const double v25,
+					const double v10,
+					const double doptexp,
+					const double ir,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const MyArray& hols,
+					const double alpha,
+					const double beta,
+					const std::string accrual)
+{
+	if (dtoday >= dend)
+		THROW_XLW("the expiry date has passed already");
+
+	if (dend > doptexp)
+		THROW_XLW("the end date is later than option expiry date");
+
+	if (beta < 0)
+		THROW_XLW("Beta is less than 0");
+
+	if ((atm <= 0) || (fwd <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ((otype != "c") && (otype != "C") && (otype != "p") && (otype != "P"))
+		THROW_XLW("The option type is not recognized");
+
+	if ((btype.length() != 2) || ((btype.at(0) != 'D') && (btype.at(0) != 'd') &&
+		(btype.at(0) != 'U') && (btype.at(0) != 'u') &&
+		(btype.at(1) != 'O') && (btype.at(1) != 'o') &&
+		(btype.at(1) != 'I') && (btype.at(1) != 'i')))
+		THROW_XLW("The barrier type is not recognized, should be one of uo,ui,do,di");
+
+	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
+		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
+
+	SamuelDelta5VolNode vol(dtoday, doptexp, fwd, atm, v90, v75, v25, v10, alpha, beta, accrual);
+	BarrierStripPricer bsp(dtoday, dstart, dend, fwd, &vol, strike, barrier, btype, ir, otype, mtype, hols);
+
+	double ret = 0.0;
+	if (("p" == outflag) || ("P" == outflag))
+		ret = bsp.price();
+	else if (("d" == outflag) || ("D" == outflag))
+		ret = bsp.delta();
+	else if (("g" == outflag) || ("G" == outflag))
+		ret = bsp.gamma();
+	else if (("v" == outflag) || ("V" == outflag))
+		ret = bsp.vega();
+	else if (("t" == outflag) || ("T" == outflag))
+		ret = bsp.theta();
+	else if (("z" == outflag) || ("Z" == outflag))
+		ret = 7;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t");
+
+	return ret;
+}
+
+double CLSpotBarrierPricer(const double dtoday,
+					const double dexp,
+					const double spot,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double doptexp,
+					const double ir,
+					const double div,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const std::string accrual)
+{
+	if (dtoday > dexp)
+		THROW_XLW("the expiry date has passed already");
+
+	if (dexp > doptexp)
+		THROW_XLW("the expiry date is later than option expiry date");
+
+	if ((atm <= 0) || (spot <= 0) || (strike <= 0) || (barrier <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ((otype != "c") && (otype != "C") && (otype != "p") && (otype != "P"))
+		THROW_XLW("The option type is not recognized");
+
+	if ((btype.length() != 2) || ((btype.at(0) != 'D') && (btype.at(0) != 'd') &&
+		(btype.at(0) != 'U') && (btype.at(0) != 'u') &&
+		(btype.at(1) != 'O') && (btype.at(1) != 'o') &&
+		(btype.at(1) != 'I') && (btype.at(1) != 'i')))
+		THROW_XLW("The barrier type is not recognized, should be one of uo,ui,do,di");
+
+	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
+		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
+
+	VolNode vol(atm, dtoday, doptexp, accrual);
+	SpotBarrierPricer bp(dtoday, dexp, spot, &vol, strike, barrier, btype, ir, div, otype, mtype);
+
+	double ret = 0.0;
+	if (("p" == outflag) || ("P" == outflag))
+		ret = bp.price();
+	else if (("d" == outflag) || ("D" == outflag))
+		ret = bp.delta();
+	else if (("g" == outflag) || ("G" == outflag))
+		ret = bp.gamma();
+	else if (("v" == outflag) || ("V" == outflag))
+		ret = bp.vega();
+	else if (("t" == outflag) || ("T" == outflag))
+		ret = bp.theta();
+	else if (("z" == outflag) || ("Z" == outflag))
+		ret = 12;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t");
+
+	return ret;
+}
+
+double CLSpotBarrierStripPricer(const double dtoday,
+					const double dstart,
+					const double dend,
+					const double spot,
+					const double strike,
+					const double barrier,
+					const std::string btype,
+					const double atm,
+					const double doptexp,
+					const double ir,
+					const double div,
+					const std::string otype,
+					const std::string mtype,
+					const std::string outflag,
+					const MyArray& hols,
+					const std::string accrual)
+{
+	if (dtoday >= dend)
+		THROW_XLW("the expiry date has passed already");
+
+	if (dend > doptexp)
+		THROW_XLW("the end date is later than option expiry date");
+
+	if ((atm <= 0) || (spot <= 0) || (strike <= 0))
+		THROW_XLW("Either price or vol is not positive");
+
+	if ((otype != "c") && (otype != "C") && (otype != "p") && (otype != "P"))
+		THROW_XLW("The option type is not recognized");
+
+	if ((btype.length() != 2) || ((btype.at(0) != 'D') && (btype.at(0) != 'd') &&
+		(btype.at(0) != 'U') && (btype.at(0) != 'u') &&
+		(btype.at(1) != 'O') && (btype.at(1) != 'o') &&
+		(btype.at(1) != 'I') && (btype.at(1) != 'i')))
+		THROW_XLW("The barrier type is not recognized, should be one of uo,ui,do,di");
+
+	if ((mtype != "d") && (mtype != "D") && (mtype != "c") && (mtype != "C"))
+		THROW_XLW("The barrier monitoring flag is not recognized, c - continusous, d - daily");
+
+	VolNode vol(atm, dtoday, doptexp, accrual);
+	SpotBarrierStripPricer bsp(dtoday, dstart, dend, spot, &vol, strike, barrier, btype, ir, div, otype, mtype, hols);
+
+	double ret = 0.0;
+	if (("p" == outflag) || ("P" == outflag))
+		ret = bsp.price();
+	else if (("d" == outflag) || ("D" == outflag))
+		ret = bsp.delta();
+	else if (("g" == outflag) || ("G" == outflag))
+		ret = bsp.gamma();
+	else if (("v" == outflag) || ("V" == outflag))
+		ret = bsp.vega();
+	else if (("t" == outflag) || ("T" == outflag))
+		ret = bsp.theta();
+	else if (("z" == outflag) || ("Z" == outflag))
+		ret = 13;
+	else
+		THROW_XLW("The output flag is not valid, should be p,d,g,v,t");
+
+	return ret;
+}
