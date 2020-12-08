@@ -1,0 +1,2 @@
+﻿  Deleting _xlwcppinterface.cpp
+C:\dev\CLOptPricer\packages\xlw.20.8.16-DEVd0cc\build\xlw.Cpp.targets(5,5): error : PROJECT TYPE MUST BE DynamicLibrary (dll) NOT Application 
